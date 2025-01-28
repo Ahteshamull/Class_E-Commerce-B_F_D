@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+    --font-tiro: "Tiro Bangla",
+        serif;
+}
