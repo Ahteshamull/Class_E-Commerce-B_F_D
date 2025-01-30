@@ -101,24 +101,21 @@ const updateProduct = async (req, res) => {
     discountPrice,
     sellingPrice,
   } = req.body;
+   const image = req.files.map(
+     (item) => `${filePath}${item.filename}`
+  );
+  
 
-  // Handle both single file (req.file) and multiple files (req.files)
-  const image = req.files ? req.files : req.file;
-  const imagePaths = [];
 
-  // If multiple images are uploaded
-  if (Array.isArray(image)) {
-    image.forEach((item) => {
-      imagePaths.push(process.env.IMAGE_URL + item.filename);
+  if (!image || !image[0]) {
+    return res.status(400).send({
+      success: false,
+      error: true,
+      message: "No image file uploaded",
     });
-  } else {
-    // If only one image is uploaded
-    imagePaths.push(process.env.IMAGE_URL + image.filename);
   }
-
   try {
-    // Update the product in the database
-    let updatedProduct = await productsModel.findOneAndUpdate(
+    const updateProduct = await productsModel.findOneAndUpdate(
       { _id: id },
       {
         name,
@@ -129,45 +126,44 @@ const updateProduct = async (req, res) => {
         review,
         discountPrice,
         sellingPrice,
-        image: imagePaths, // Set the image(s) in an array
+        image: image, // update with new image path
         description,
       },
       { new: true }
     );
+    const ImagePathArray= updateProduct.image
 
-    // If the product had an image before, delete the old ones
-    if (updatedProduct.image && updatedProduct.image.length > 0) {
-      const oldImages = updatedProduct.image;
-
-      // Loop through old images and delete them
-     async function deleteImage(oldImage) {
-       const imageName = oldImage.split("/").pop();
-       const imagePath = path.join(__dirname, "../uploads", imageName);
-
-       try {
-         await fs.unlink(imagePath); // Delete the image asynchronously
-         console.log(`Deleted old image: ${imagePath}`);
-       } catch (err) {
-         console.error(`Error deleting image: ${imagePath}`, err);
-       }
+  ImagePathArray.forEach((item) => {
+    const imagePath = item.split("/");
+    const oldImagePath = imagePath[imagePath.length - 1];
+    fs.unlink(
+      `${path.join(__dirname, "../uploads")}/${oldImagePath}`,
+      (err) => {
+        if (err) {
+          return res.status(500).send({
+            success: false,
+            error: true,
+            message: `${err.message ? err.message : "Internal server error"}`,
+          });
+        }
       }
-      for (const oldImage of oldImages) {
-        await deleteImage(oldImage); // Ensure this runs asynchronously
-      }
-    }
-
-    return res.status(200).send({
-      success: true,
-      message: "Product updated successfully",
-      updatedProduct,
-    });
+    );
+  });
+     return res.status(200).send({
+       success: true,
+       error: false,
+       message: `product Updated successfully`,
+       updateProduct,
+     });
   } catch (error) {
     return res.status(500).send({
       success: false,
+      error: true,
       message: error.message || "Internal server error",
     });
   }
 };
+
 
 // const updateProduct = async (req, res) => {
 //   const { id } = req.params;

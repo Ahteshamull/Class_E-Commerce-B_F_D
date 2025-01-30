@@ -32,6 +32,7 @@ const storage = multer.diskStorage({
     ) {
       cb(null, true);
     } else {
+     
       cb(new error("Only jpeg, jpg,or png file allowed"));
     }
   },

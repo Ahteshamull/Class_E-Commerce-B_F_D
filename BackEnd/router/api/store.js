@@ -23,7 +23,12 @@ router.post(
 );
 router.delete("/deleteStore/:id", authMiddleware, deleteStore);
 //localhost:3000/api/v1/store/deleteStore
-router.patch("/updateStore/:id", authMiddleware, updateStore);
+router.patch(
+  "/updateStore/:id",
+  upload.single("image"),
+  authMiddleware,
+  updateStore
+);
 //localhost:3000/api/v1/store/updateStore
 router.get("/singleStore/:id", singleStore);
 //localhost:3000/api/v1/store/singleStore
