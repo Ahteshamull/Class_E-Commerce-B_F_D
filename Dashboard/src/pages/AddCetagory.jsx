@@ -49,7 +49,7 @@ const AddCategory = () => {
         },
       );
 
-      const { success, message } = await (await response).data;
+      const { success, message } = await  response.data;
       if (success) {
         setTimeout(() => {
           setLoading(false);
