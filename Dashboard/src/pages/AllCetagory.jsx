@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
 
-// Category Component to display individual category information in a table row
 const Category = ({ category }) => {
   return (
     <tr className="border-b hover:bg-gray-100">
@@ -23,126 +24,50 @@ const Category = ({ category }) => {
       <td className="px-6 py-4 text-sm text-gray-600">
         {category.description}
       </td>
+      <td className="px-6 py-4 text-sm text-gray-600">
+        {moment(category.createdAt).format("Do MMMM YYYY, h:mm A")}
+      </td>
     </tr>
   );
 };
 
-// AllCategories Component to manage and display all categories in a table
 const AllCategories = () => {
-  const [categories, setCategories] = useState([
-    {
-      name: "Electronics",
-      description: "Latest electronic gadgets and devices.",
-      image: "https://picsum.photos/536/354",
-    },
-    {
-      name: "Fashion",
-      description: "Trendy clothing and accessories.",
-      image: "https://picsum.photos/536/354",
-    },
-    {
-      name: "Books",
-      description: "A wide variety of books for all ages.",
-      image: "https://picsum.photos/536/354",
-    },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [newCategory, setNewCategory] = useState({
-    name: "",
-    description: "",
-    image: "",
-  });
+  useEffect(() => {
+    const fetchAllCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/category/allCetagory",
+        );
+        setCategories(response.data.allCetagory);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewCategory({
-      ...newCategory,
-      [name]: value,
-    });
-  };
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setError("Failed to fetch categories. Please try again later.");
+        setLoading(false);
+      }
+    };
 
-  const handleImageChange = (e) => {
-    const { files } = e.target;
-    if (files && files[0]) {
-      setNewCategory({
-        ...newCategory,
-        image: URL.createObjectURL(files[0]), // Set image preview URL
-      });
-    }
-  };
+    fetchAllCategories();
+  }, []);
 
-  const handleAddCategory = (e) => {
-    e.preventDefault();
-    setCategories([...categories, newCategory]);
-    setNewCategory({ name: "", description: "", image: "" }); // Reset form
-  };
+  if (loading) {
+    return <div className="py-8 text-center">Loading categories...</div>;
+  }
+
+  if (error) {
+    return <div className="py-8 text-center text-red-500">{error}</div>;
+  }
 
   return (
     <div className="mx-auto w-full py-8">
       <h2 className="mb-8 text-center text-3xl font-semibold text-gray-800">
         All Categories
       </h2>
-
-      {/* Add Category Form */}
-      <form onSubmit={handleAddCategory} className="mb-10">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div>
-            <label className="block text-lg font-medium text-gray-700">
-              Category Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={newCategory.name}
-              onChange={handleChange}
-              className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter category name"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-lg font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={newCategory.description}
-              onChange={handleChange}
-              className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter category description"
-              required
-            />
-          </div>
-
-          <div className="col-span-2">
-            <label className="block text-lg font-medium text-gray-700">
-              Category Image
-            </label>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-500"
-            />
-            {newCategory.image && (
-              <div className="mt-2">
-                <img
-                  src={newCategory.image}
-                  alt="Category Preview"
-                  className="h-24 w-24 rounded-md object-cover"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          className="mt-6 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500"
-        >
-          Add Category
-        </button>
-      </form>
 
       {/* Categories Table */}
       <div className="overflow-x-auto">
@@ -157,6 +82,9 @@ const AllCategories = () => {
               </th>
               <th className="px-6 py-4 text-left text-lg font-medium text-gray-700">
                 Description
+              </th>
+              <th className="px-6 py-4 text-left text-lg font-medium text-gray-700">
+                Created
               </th>
             </tr>
           </thead>

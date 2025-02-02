@@ -23,23 +23,23 @@ const AddCategory = () => {
     setLoading(true);
     const { name } = formdata;
 
+    // Validate category name and image
     if (!name) {
       setLoading(false);
       return handleError("Name must be provided");
-    }
-
-    const data = new FormData();
-    data.append("name", formdata.name);
-    data.append("description", formdata.description);
-    if (image) {
-      data.append("image", image);
     }
     if (!image) {
       setLoading(false);
       return handleError("Image must be provided");
     }
+
+    const data = new FormData();
+    data.append("name", formdata.name);
+    data.append("description", formdata.description);
+    data.append("image", image);
+
     try {
-      const response = axios.post(
+      const response = await axios.post(
         "http://localhost:3000/api/v1/category/createCategory",
         data,
         {
@@ -49,8 +49,13 @@ const AddCategory = () => {
         },
       );
 
-      const { success, message } = await  response.data;
+      const { success, message } = response.data;
       if (success) {
+        setFormData({
+          name: "",
+          description: "",
+          image: "",
+        }); // Reset form after success
         setTimeout(() => {
           setLoading(false);
           handleSuccess(message);
@@ -77,6 +82,7 @@ const AddCategory = () => {
           <input
             type="text"
             name="name"
+            value={formdata.name} // Controlled input value
             onChange={handleChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             placeholder="Enter category name"
@@ -90,6 +96,7 @@ const AddCategory = () => {
           </label>
           <textarea
             name="description"
+            value={formdata.description} // Controlled input value
             onChange={handleChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             placeholder="Enter category description"

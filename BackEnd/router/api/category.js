@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.post(
   "/createCategory",
-  authMiddleware,
+  // authMiddleware,
   upload.single("image"),
   errorCheck,
   createCetagory

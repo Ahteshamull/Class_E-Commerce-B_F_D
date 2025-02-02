@@ -38,11 +38,11 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="mx-auto w-full rounded-xl bg-white p-8 shadow-2xl">
+    <div className="mx-auto w-full overflow-hidden rounded-xl bg-white p-8 shadow-2xl">
       <h2 className="mb-6 text-center text-3xl font-semibold text-gray-800">
         Add New Product
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 ">
         <div>
           <label className="block text-lg font-medium text-gray-700">
             Product Name

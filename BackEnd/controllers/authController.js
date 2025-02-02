@@ -9,16 +9,18 @@ const registrationController = async (req, res) => {
   let { name, email, password, role } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(404).send({ error: "Field Is Required" });
+    return res.status(404).send({ error: true, message: "Field Is Required" });
   }
 
   if (!EmailValidateCheck(email)) {
-    return res.status(404).send({ error: "Invalid Email" });
+    return res.status(404).send({ error: true, message: "Invalid Email" });
   }
   const existingUser = await userModel.findOne({ email });
 
   if (existingUser) {
-    return res.status(404).send({ error: "Email Already In Use" });
+    return res
+      .status(404)
+      .send({ error: true, message: "Email Already In Use" });
   }
 
   try {
@@ -78,7 +80,8 @@ const loginController = async (req, res) => {
             secure: false,
           });
           return res.status(200).send({
-            success: "User Login Successfully",
+            success: true,
+            message: "User Login Successfully",
             data: loginUserInfo,
             token,
           });
@@ -104,11 +107,19 @@ const loginController = async (req, res) => {
           });
         }
       } else {
-        return res.status(404).send({ error: "Invalid Email or Password" });
+        return res
+          .status(404)
+          .send({ error: true, message: "Invalid Email or Password" });
       }
     });
   } else {
-    return res.status(404).send({ error: "You Have Don't Any Account" });
+    return res
+      .status(404)
+      .send({
+        error: true,
+        success: false,
+        message: "You Have Don't Any Account",
+      });
   }
 };
 const allUser = async (req, res) => {
@@ -119,58 +130,55 @@ const allUser = async (req, res) => {
 };
 
 const OtpVerify = async (req, res) => {
-  const { email, otp } = req.body
-  const existingUser = await userModel.findOne({ email })
+  const { email, otp } = req.body;
+  const existingUser = await userModel.findOne({ email });
   if (existingUser) {
     if (existingUser.otp == otp) {
-      existingUser.isVerify = true
-      await existingUser.save()
-        return res.status(200).send({ success:true,error:false,message:"OTP Verify" });
+      existingUser.isVerify = true;
+      await existingUser.save();
+      return res
+        .status(200)
+        .send({ success: true, error: false, message: "OTP Verify" });
     } else {
-       return res
-         .status(403)
-         .send({ success: false, message: "Invalid Otp or Expired" });
+      return res
+        .status(403)
+        .send({error:true, success: false, message: "Invalid Otp or Expired" });
     }
-   
   } else {
-    return res.status(403).send({success:false,message:"User Not found"})
+    return res
+      .status(403)
+      .send({ error: true, success: false, message: "User Not found" });
   }
-  
-}
+};
 
+const ResendOtp = async (req, res) => {
+  const { email } = req.body;
+  const existingUser = await userModel.findOne({ email });
+  const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-const ResendOtp = async(req,res) => {
-  const { email } = req.body
-  const existingUser = await userModel.findOne({ email })
-    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
- 
   if (existingUser) {
-            let sendOtp = await userModel.findOneAndUpdate(
-              { email },
-              { $set: { otp: verifyCode } },
-              { new: true }
-            );
-            setTimeout(async () => {
-              let sendOtp = await userModel.findOneAndUpdate(
-                { email },
-                { $set: { otp: null } },
-                { new: true }
-              );
-              await existingUser.save()
-            }, 120000);
-            SendOtp(email, verifyCode);
-            return res
-              .status(201)
-              .send({
-                success: true,
-                message: "Otp Resend Successfully",
-               
-              });
-    
+    let sendOtp = await userModel.findOneAndUpdate(
+      { email },
+      { $set: { otp: verifyCode } },
+      { new: true }
+    );
+    setTimeout(async () => {
+      let sendOtp = await userModel.findOneAndUpdate(
+        { email },
+        { $set: { otp: null } },
+        { new: true }
+      );
+      await existingUser.save();
+    }, 120000);
+    SendOtp(email, verifyCode);
+    return res.status(201).send({
+      success: true,
+      message: "Otp Resend Successfully",
+    });
   } else {
-     return res.status(403).send({ success: false, message: "User Not found" });
+    return res.status(403).send({ success: false, message: "User Not found" });
   }
-}
+};
 module.exports = {
   registrationController,
   loginController,

@@ -1,119 +1,177 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
+import { Link, useNavigate } from "react-router"; // Correct import
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+import axios from "axios";
+import { handleError, handleSuccess } from "../Util";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
-    const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const handleChange = (e) => {
+    setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+   
+    if (!loginInfo.email || !loginInfo.password) {
+      handleError("Please fill in all fields.");
+      return;
+    }
+
+    setLoading(true); 
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/auth/login",
+        loginInfo,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const { success, message, token } = response.data;
+
+      if (success) {
+        handleSuccess(response.data.message);
+        
+        localStorage.setItem("authToken", token); // Store the token in localStorage
+
+        // Redirect to home page after 1 second
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+            
+        handleError(
+     
+          response.data.error || "An error occurred while logging in.",
+        );
+      }
+    } catch (error) {
+      const { response } = error
+      handleError(response.data.message)
+       setLoading(false);
+    }
+  };
+
   return (
-    <div>
-      <div className="bg-gray-50 font-[sans-serif]">
-        <div className="flex min-h-screen flex-col items-center justify-center px-4 py-6">
-          <div className="w-full max-w-md">
-            <div className="rounded-2xl bg-white p-8 shadow">
-              <h2 className="text-center text-2xl font-bold text-gray-800">
-                Sign in
-              </h2>
-              <form className="mt-8 space-y-4">
-                <div>
-                  <label className="mb-2 block text-sm text-gray-800">
-                    User name
-                  </label>
-                  <div className="relative flex items-center">
-                    <input
-                      name="username"
-                      type="text"
-                      required=""
-                      className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-800 outline-blue-600"
-                      placeholder="Enter user name"
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="#bbb"
-                      stroke="#bbb"
-                      className="absolute right-4 h-4 w-4"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle cx={10} cy={7} r={6} data-original="#000000" />
-                      <path
-                        d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
-                        data-original="#000000"
-                      />
-                    </svg>
-                  </div>
+    <div className="bg-gray-50 font-[sans-serif]">
+      <div className="flex min-h-screen flex-col items-center justify-center px-4 py-6">
+        <div className="w-full max-w-md">
+          <div className="rounded-2xl bg-white p-8 shadow">
+            <h2 className="text-center text-2xl font-bold text-gray-800">
+              Sign in
+            </h2>
+            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+              {/* Email input */}
+              <div>
+                <label className="mb-2 block text-sm text-gray-800">
+                  Email
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    onChange={handleChange}
+                    name="email"
+                    value={loginInfo.email}
+                    type="email"
+                    required
+                    className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-800 outline-blue-600"
+                    placeholder="Enter your email"
+                  />
                 </div>
-                <div>
-                  <label className="mb-2 block text-sm text-gray-800">
-                    Password
-                  </label>
-                  <div className="relative flex items-center">
-                    <input
-                      name="password"
-                      type={showPassword ? "text" : "password"}
-                      required=""
-                      className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-800 outline-blue-600"
-                      placeholder="Enter password"
-                    />
-                    <div
-                      className="absolute top-1 right-2 cursor-pointer"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      <span>
-                        {showPassword ? (
-                          <FaEyeSlash size={22} className="text-gray-400" />
-                        ) : (
-                          <FaEye size={22} className="text-gray-400" />
-                        )}
-                      </span>
-                    </div>
-                    
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-3 block text-sm text-gray-800"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <div className="text-sm">
-                    <a
-                      href="jajvascript:void(0);"
-                      className="font-semibold text-blue-600 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
-                  </div>
-                </div>
-                <div className="!mt-8">
+              </div>
+
+              {/* Password input */}
+              <div>
+                <label className="mb-2 block text-sm text-gray-800">
+                  Password
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    onChange={handleChange}
+                    name="password"
+                    value={loginInfo.password}
+                    type={showPassword ? "text" : "password"}
+                    required
+                    className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-800 outline-blue-600"
+                    placeholder="Enter password"
+                  />
                   <button
                     type="button"
-                    className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm tracking-wide text-white hover:bg-blue-700 focus:outline-none"
+                    className="absolute top-[10px] right-2 cursor-pointer"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
-                    Sign in
+                    {showPassword ? (
+                      <FaEyeSlash size={22} className="text-gray-400" />
+                    ) : (
+                      <FaEye size={22} className="text-gray-400" />
+                    )}
                   </button>
                 </div>
-                <p className="!mt-8 text-center text-sm text-gray-800">
-                  Don't have an account?{" "}
-                  <Link to={"/signup"}>
-                    <a
-                      href="javascript:void(0);"
-                      className="ml-1 font-semibold whitespace-nowrap text-blue-600 hover:underline"
-                    >
-                      Register here
-                    </a>
-                  </Link>
-                </p>
-              </form>
-            </div>
+              </div>
+
+              {/* Remember me and Forgot password */}
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-3 block text-sm text-gray-800"
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <div className="text-sm">
+                  <a
+                    href="#"
+                    className="font-semibold text-blue-600 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+              </div>
+
+              {/* Submit button */}
+              <div className="!mt-8">
+                <button
+                  type="submit"
+                  disabled={loading} // Disable button when loading
+                  className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm tracking-wide text-white hover:bg-blue-700 focus:outline-none disabled:opacity-50"
+                >
+                  {loading ? "Signing in..." : "Sign in"}
+                </button>
+              </div>
+
+              {/* Registration link */}
+              <p className="!mt-8 text-center text-sm text-gray-800">
+                Don't have an account?{" "}
+                <Link to="/signup">
+                  <span className="ml-1 font-semibold text-blue-600 hover:underline">
+                    Register here
+                  </span>
+                </Link>
+              </p>
+            </form>
+            <ToastContainer/>
           </div>
         </div>
       </div>

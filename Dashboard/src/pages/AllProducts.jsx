@@ -75,7 +75,7 @@ const TABLE_ROWS = [
 export function AllProducts() {
   return (
     <Card className="mt-4 h-full w-full">
-      <CardHeader floated={false} shadow={false} className="rounded-none">
+      <CardHeader floated={false} shadow={false} className="rounded-none mt-1">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <Typography variant="h5" color="blue-gray">

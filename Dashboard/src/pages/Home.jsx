@@ -1,10 +1,12 @@
 import React from "react";
+import  {AllProducts}  from "./AllProducts";
+
 
 const Home = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-semibold text-gray-800">Home</h1>
-    </div>
+    <>
+<AllProducts/>
+    </>
   );
 };
 
