@@ -76,7 +76,7 @@ const loginController = async (req, res) => {
             expiresIn: "24h",
           });
           res.cookie("token", token, {
-            httpOnly: true,
+            // httpOnly: true,
             secure: false,
           });
           return res.status(200).send({
@@ -97,7 +97,7 @@ const loginController = async (req, res) => {
             expiresIn: "1h",
           });
           res.cookie("token", token, {
-            httpOnly: true,
+            // httpOnly: true,
             secure: false,
           });
           return res.status(200).send({

@@ -1,9 +1,58 @@
+// const multer = require("multer");
+// const path = require("path");
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     const fileExt = path.extname(file.originalname);
+//     const fileName =
+//       file.originalname
+//         .replace(fileExt, "")
+//         .toLowerCase()
+//         .split(" ")
+//         .join("-") +
+//       "-" +
+//       Date.now();
+//     cb(null, fileName + fileExt);
+//   },
+// });
+
+//     const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 5 * 1024 * 1024,
+//   },
+//   fileFilter: (req, file, cb) => {
+//     if (
+//       file.mimetype === "image/png" ||
+//       file.mimetype === "image/jpeg" ||
+//       file.mimetype === "image/jpg"
+//     ) {
+//       cb(null, true);
+//     } else {
+     
+//       cb(new error("Only jpeg, jpg,or png file allowed"));
+//     }
+//   },
+// });
+
+// function errorCheck(err, req, res, next) {
+//   if (err) {
+//     return res.status(500).send({ message: err.message });
+//   }
+//   next();
+// }
+// module.exports=  {errorCheck,upload }
+
 const multer = require("multer");
 const path = require("path");
 
+// Define storage options for multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads");
+    cb(null, "./uploads"); // Define the folder to store uploaded files
   },
   filename: function (req, file, cb) {
     const fileExt = path.extname(file.originalname);
@@ -14,15 +63,16 @@ const storage = multer.diskStorage({
         .split(" ")
         .join("-") +
       "-" +
-      Date.now();
+      Date.now(); // Generate a unique filename using the current timestamp
     cb(null, fileName + fileExt);
   },
 });
 
-    const upload = multer({
+// Define the multer upload configuration
+const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
   },
   fileFilter: (req, file, cb) => {
     if (
@@ -30,18 +80,29 @@ const storage = multer.diskStorage({
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/jpg"
     ) {
-      cb(null, true);
+      cb(null, true); // Accept the file if it's a valid image
     } else {
-     
-      cb(new error("Only jpeg, jpg,or png file allowed"));
+      // Reject the file if it's not a valid image type
+      cb(new Error("Only jpeg, jpg, or png file allowed"));
     }
   },
 });
 
+// Middleware to handle errors
 function errorCheck(err, req, res, next) {
   if (err) {
-    return res.status(500).send({ message: err.message });
+    if (err instanceof multer.MulterError) {
+      // Specific error for multer (e.g., file size exceeded)
+      return res
+        .status(400)
+        .send({ message: `File upload error: ${err.message}` });
+    }
+    // General error handling
+    return res
+      .status(500)
+      .send({ message: err.message || "Internal server error" });
   }
   next();
 }
-module.exports=  {errorCheck,upload }
+
+module.exports = { errorCheck, upload };

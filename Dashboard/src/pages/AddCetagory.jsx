@@ -3,6 +3,7 @@ import axios from "axios";
 import { handleError, handleSuccess } from "../Toast";
 import { ToastContainer } from "react-toastify";
 import { Spinner } from "@material-tailwind/react";
+import Cookie from "js-cookie";
 
 const AddCategory = () => {
   const [image, setImage] = useState(null);
@@ -21,6 +22,7 @@ const AddCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const token = Cookie.get("token");
     const { name } = formdata;
 
     // Validate category name and image
@@ -45,7 +47,9 @@ const AddCategory = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Cookie: `token=${token}`,
           },
+          withCredentials: true,
         },
       );
 

@@ -4,9 +4,13 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import axios from "axios";
 import { handleError, handleSuccess } from "../Util";
 import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { userLoginInfo } from "../slices/userSlice";
+import Cookie from "js-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: "",
@@ -21,18 +25,18 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
     if (!loginInfo.email || !loginInfo.password) {
       handleError("Please fill in all fields.");
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/auth/login",
         loginInfo,
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
@@ -40,28 +44,28 @@ const Login = () => {
         },
       );
 
-      const { success, message, token } = response.data;
+      if (response.data.data.role === "admin") {
+        dispatch(userLoginInfo(response.data.data));
 
-      if (success) {
-        handleSuccess(response.data.message);
-        
-        localStorage.setItem("authToken", token); // Store the token in localStorage
-
-        // Redirect to home page after 1 second
+        // localStorage.setItem("userData", JSON.stringify(response.data.data))
+        Cookie.set(
+          "user",
+         String(response.data.data.role + response.data.data.id),
+          { expires: 10/1440 },
+        );
+        handleSuccess(response.data.data.message || "Admin Login Success!");
         setTimeout(() => {
           navigate("/");
         }, 1000);
       } else {
-            
-        handleError(
-     
-          response.data.error || "An error occurred while logging in.",
-        );
+        handleError(response.data.error || "Only admin can access this !");
+        setLoading(false);
       }
     } catch (error) {
-      const { response } = error
-      handleError(response.data.message)
-       setLoading(false);
+      const { response } = error;
+console.log(response)
+      // handleError(response.data.message);
+      //   setLoading(false);
     }
   };
 
@@ -171,7 +175,7 @@ const Login = () => {
                 </Link>
               </p>
             </form>
-            <ToastContainer/>
+            <ToastContainer />
           </div>
         </div>
       </div>
