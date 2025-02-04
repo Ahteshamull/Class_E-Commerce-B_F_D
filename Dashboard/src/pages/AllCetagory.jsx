@@ -4,6 +4,7 @@ import moment from "moment";
 import { handleError, handleSuccess } from "../Util";
 import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 
 const Category = ({ category, onDelete, onEdit }) => {
   const handleDelete = async () => {
@@ -23,10 +24,8 @@ const Category = ({ category, onDelete, onEdit }) => {
     <tr className="border-b hover:bg-gray-100">
       <td className="px-6 py-4">
         {category.image ? (
-          
           <img
             src={category.image}
-           
             alt="Category"
             className="h-24 w-24 rounded-md object-cover"
           />
@@ -71,6 +70,8 @@ const AllCategories = () => {
   const [updatedName, setUpdatedName] = useState("");
   const [updatedDescription, setUpdatedDescription] = useState("");
   const [updatedImage, setUpdatedImage] = useState(null);
+  const [updating, setUpdating] = useState(false); // Track updating state to show loading
+  const navigate = useNavigate();
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -112,7 +113,6 @@ const AllCategories = () => {
     }
   };
 
-
   const handleEditCategory = (category) => {
     setEditCategory(category);
     setUpdatedName(category.name);
@@ -122,6 +122,12 @@ const AllCategories = () => {
   // Handle form submit for updating category
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
+    if (!updatedName || !updatedDescription) {
+      handleError("Name and Description are required.");
+      return;
+    }
+
+    // Prepare the form data to be sent in the request
     const formData = new FormData();
     formData.append("name", updatedName);
     formData.append("description", updatedDescription);
@@ -130,6 +136,8 @@ const AllCategories = () => {
     }
 
     const token = Cookies.get("token");
+    setUpdating(true); // Set updating state to true
+
     try {
       const response = await axios.patch(
         `http://localhost:3000/api/v1/category/updateCetagory/${editCategory._id}`,
@@ -143,21 +151,33 @@ const AllCategories = () => {
         },
       );
 
-      // Get the updated category data from the response
-      const updatedCategory = response.data.cetagory;
+      const updatedCategory = response.data.category;
+      const { success, message } = updatedCategory;
 
-      // Update the categories state with the new data
-      setCategories(
-        categories.map((category) =>
-          category._id === updatedCategory._id ? updatedCategory : category,
-        ),
-      );
+      if (success) {
+        handleSuccess(message);
 
-      handleSuccess("Category updated successfully.");
-      setEditCategory(null); // Close the form/modal after update
+        setCategories((prevCategories) =>
+          prevCategories.map((category) =>
+            category._id === updatedCategory._id ? updatedCategory : category,
+          ),
+        );
+
+        setEditCategory(null);
+        setUpdatedName("");
+        setUpdatedDescription("");
+        setUpdatedImage(null);
+        setUpdating(false); // Set updating state to false
+        // Redirect or perform additional actions
+      } else {
+        handleError(message || "Failed to update category.");
+        setUpdating(false); // Set updating state to false
+      }
     } catch (error) {
-      const { response } = error;
-      handleError(response.data.message);
+      handleSuccess(error);
+      setUpdating(false);
+      
+        setEditCategory(null);// Set updating state to false
     }
   };
 
@@ -270,9 +290,12 @@ const AllCategories = () => {
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+                  disabled={updating} // Disable button while updating
+                  className={`rounded-lg px-4 py-2 text-white ${
+                    updating ? "bg-gray-500" : "bg-blue-600"
+                  }`}
                 >
-                  Update
+                  {updating ? "Updating..." : "Update"}
                 </button>
               </div>
             </form>

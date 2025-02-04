@@ -101,11 +101,7 @@ const updateProduct = async (req, res) => {
     discountPrice,
     sellingPrice,
   } = req.body;
-   const image = req.files.map(
-     (item) => `${filePath}${item.filename}`
-  );
-  
-
+  const image = req.files.map((item) => `${filePath}${item.filename}`);
 
   if (!image || !image[0]) {
     return res.status(400).send({
@@ -128,33 +124,32 @@ const updateProduct = async (req, res) => {
         sellingPrice,
         image: image, // update with new image path
         description,
-      },
-      { new: true }
-    );
-    const ImagePathArray= updateProduct.image
-
-  ImagePathArray.forEach((item) => {
-    const imagePath = item.split("/");
-    const oldImagePath = imagePath[imagePath.length - 1];
-    fs.unlink(
-      `${path.join(__dirname, "../uploads")}/${oldImagePath}`,
-      (err) => {
-        if (err) {
-          return res.status(500).send({
-            success: false,
-            error: true,
-            message: `${err.message ? err.message : "Internal server error"}`,
-          });
-        }
       }
     );
-  });
-     return res.status(200).send({
-       success: true,
-       error: false,
-       message: `product Updated successfully`,
-       updateProduct,
-     });
+    const ImagePathArray = updateProduct.image;
+
+    ImagePathArray.forEach((item) => {
+      const imagePath = item.split("/");
+      const oldImagePath = imagePath[imagePath.length - 1];
+      fs.unlink(
+        `${path.join(__dirname, "../uploads")}/${oldImagePath}`,
+        (err) => {
+          if (err) {
+            return res.status(500).send({
+              success: false,
+              error: true,
+              message: `${err.message ? err.message : "Internal server error"}`,
+            });
+          }
+        }
+      );
+    });
+    return res.status(200).send({
+      success: true,
+      error: false,
+      message: `product Updated successfully`,
+      updateProduct,
+    });
   } catch (error) {
     return res.status(500).send({
       success: false,
@@ -163,7 +158,6 @@ const updateProduct = async (req, res) => {
     });
   }
 };
-
 
 // const updateProduct = async (req, res) => {
 //   const { id } = req.params;

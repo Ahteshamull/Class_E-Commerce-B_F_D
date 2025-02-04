@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { handleError, handleSuccess } from "./../Util";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router';
+import Cookie from "js-cookie";
+
 
 const AddProduct = () => {
+  const navigate = useNavigate()
+  const [allCategories, setAllCategories] = useState([]);
+  const [allStore, setAllStore] = useState([]);
   const [formData, setFormData] = useState({
-    productName: "",
+    name: "",
     description: "",
     image: "",
-    price: "",
+   sellingPrice:"",
+    discountPrice: "",
     category: "",
     store: "",
     stock: "",
-    review: "",
-    rating: "",
-    sellingPrice: "",
-    discountPrice: "",
   });
 
   const handleChange = (e) => {
@@ -31,26 +37,103 @@ const AddProduct = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData); // For testing
-    // Handle form submission logic, e.g., sending data to API
-  };
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   const token = Cookie.get("token");
+   try {
+     const dataToSubmit = {
+       ...formData,
+       category: formData.category._id,
+       store: formData.store._id,
+     };
+
+     // Handle optional discount price field
+     if (!formData.discountPrice) {
+       delete dataToSubmit.discountPrice;
+     }
+
+     const response = await axios.post(
+       "http://localhost:3000/api/v1/product/createProduct",
+       dataToSubmit,
+       {
+         headers: {
+           "Content-Type": "multipart/form-data",
+           Cookie: `token=${token}`,
+         },
+         withCredentials: true,
+       },
+     );
+
+     const data = await response.data;
+     const { success, message } = data;
+
+     if (success) {
+       setFormData({
+         name: "",
+         description: "",
+         image: "",
+         sellingPrice: "",
+         discountPrice: "",
+         category: "",
+         store: "",
+         stock: "",
+       });
+       handleSuccess(message);
+       setTimeout(() => {
+         navigate("/all-products");
+       }, 1000);
+     }
+   } catch (error) {
+     const { response } = error;
+     handleError(response.data.message);
+   }
+ };
+
+  useEffect(() => {
+    async function getAllCetagory() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/category/allCetagory",
+        );
+        const data = await response.data;
+        setAllCategories(data.allCetagory);
+      } catch (error) {
+        console.error("Error fetching cetagory:", error);
+      }
+    }
+    getAllCetagory();
+  }, []);
+
+
+  useEffect(() => {
+    async function getAllStore() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/store/allStore",
+        );
+        const data = await response.data;
+        setAllStore(data.allStore);
+      } catch (error) {
+        console.error("Error fetching cetagory:", error);
+      }
+    }
+    getAllStore();
+  }, []);
 
   return (
     <div className="mx-auto w-full overflow-hidden rounded-xl bg-white p-8 shadow-2xl">
       <h2 className="mb-6 text-center text-3xl font-semibold text-gray-800">
         Add New Product
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-6 ">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-lg font-medium text-gray-700">
             Product Name
           </label>
           <input
             type="text"
-            name="productName"
-            value={formData.productName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             placeholder="Enter product name"
@@ -77,22 +160,10 @@ const AddProduct = () => {
           <input
             type="file"
             name="image"
+            required
+            multiple
             onChange={handleFileChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <label className="block text-lg font-medium text-gray-700">
-            Price
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            placeholder="Enter product price"
           />
         </div>
 
@@ -104,30 +175,34 @@ const AddProduct = () => {
             name="category"
             value={formData.category}
             onChange={handleChange}
+            required
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
-            <option value="">Select category</option>
-            <option value="electronics">Electronics</option>
-            <option value="fashion">Fashion</option>
-            <option value="home">Home</option>
-            <option value="toys">Toys</option>
-            <option value="books">Books</option>
-            <option value="beauty">Beauty</option>
+            <option>Select a cetagory</option>
+            {allCategories?.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
-
         <div>
           <label className="block text-lg font-medium text-gray-700">
             Store
           </label>
-          <input
-            type="text"
+          <select
             name="store"
             value={formData.store}
             onChange={handleChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            placeholder="Enter store name"
-          />
+          >
+            <option>Select a Store</option>
+            {allStore?.map((store) => (
+              <option key={store._id} value={store._id}>
+                {store.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -146,37 +221,7 @@ const AddProduct = () => {
 
         <div>
           <label className="block text-lg font-medium text-gray-700">
-            Review
-          </label>
-          <input
-            type="text"
-            name="review"
-            value={formData.review}
-            onChange={handleChange}
-            className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            placeholder="Enter product review"
-          />
-        </div>
-
-        <div>
-          <label className="block text-lg font-medium text-gray-700">
-            Rating
-          </label>
-          <input
-            type="number"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            placeholder="Enter product rating (1-5)"
-            min="1"
-            max="5"
-          />
-        </div>
-
-        <div>
-          <label className="block text-lg font-medium text-gray-700">
-            Selling Price
+           Selling Price
           </label>
           <input
             type="number"
@@ -211,8 +256,10 @@ const AddProduct = () => {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };
 
 export default AddProduct;
+

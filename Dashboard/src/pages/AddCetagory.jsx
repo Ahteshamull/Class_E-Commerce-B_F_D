@@ -4,8 +4,10 @@ import { handleError, handleSuccess } from "../Toast";
 import { ToastContainer } from "react-toastify";
 import { Spinner } from "@material-tailwind/react";
 import Cookie from "js-cookie";
+import { useNavigate } from "react-router";
 
 const AddCategory = () => {
+  const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formdata, setFormData] = useState({
@@ -60,9 +62,10 @@ const AddCategory = () => {
           description: "",
           image: "",
         }); // Reset form after success
+        handleSuccess(message);
         setTimeout(() => {
+          navigate("/all-cetagory");
           setLoading(false);
-          handleSuccess(message);
         }, 2000);
       }
     } catch (error) {

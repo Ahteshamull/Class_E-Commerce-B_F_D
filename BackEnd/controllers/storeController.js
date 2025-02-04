@@ -103,8 +103,7 @@ const updateStore = async (req, res) => {
         contact,
         image: filePath + filename,
         description,
-      },
-      { new: true }
+      }
     );
     let ImagePath = updateStore.image.split("/");
     let oldImagePath = ImagePath[ImagePath.length - 1];
