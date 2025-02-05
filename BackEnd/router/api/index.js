@@ -6,6 +6,7 @@ const product = require("./product");
 const store = require("./store");
 const cart = require("./cart");
 const order = require("./order");
+const banner = require("./banner");
 
 //localhost:3000/api/v1/auth/
 http: router.use("/auth", auth);
@@ -19,5 +20,7 @@ http: router.use("/store", store);
 http: router.use("/cart", cart);
 //localhost:3000/api/v1/order/
 http: router.use("/order", order);
+//localhost:3000/api/v1/banner/
+http: router.use("/banner", banner);
 
 module.exports = router;
