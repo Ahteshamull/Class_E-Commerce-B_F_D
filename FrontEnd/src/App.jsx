@@ -16,7 +16,7 @@ import Account from "./pages/Account";
 import Shop from "./pages/Shop";
 import ProductView from "./pages/ProductView";
 import ForgetPass from "./pages/ForgetPass";
-import ChackOut from "./pages/ChackOut";
+import CheckOut from "./pages/ChackOut";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>

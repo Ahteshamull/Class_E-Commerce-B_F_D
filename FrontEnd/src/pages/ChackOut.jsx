@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../layout/Container";
 import { Link } from "react-router";
 
-const ChackOut = () => {
+const CheckOut = () => {
   return (
     <div className="mt-10 mb-10">
       <Container>
@@ -351,4 +351,4 @@ const ChackOut = () => {
   );
 };
 
-export default ChackOut;
+export default CheckOut;
