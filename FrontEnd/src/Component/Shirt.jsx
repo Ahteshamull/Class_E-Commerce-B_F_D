@@ -29,78 +29,25 @@ const Shirt = () => {
   const LoadingState = () => {
     return (
       <>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
+        {Array.from({ length: 6 }).map((_, item) => {
+          return (
+            <div
+              key={item}
+              className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border"
+            >
+              {/* Skeleton Image */}
+              <div className="animate-pulse mb-4">
+                <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
+              </div>
 
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
-
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
-
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
-
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
-
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
-        <div className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border">
-          {/* Skeleton Image */}
-          <div className="animate-pulse mb-4">
-            <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-          </div>
-
-          {/* Skeleton Text */}
-          <div className="animate-pulse space-y-4">
-            <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-          </div>
-        </div>
+              {/* Skeleton Text */}
+              <div className="animate-pulse space-y-4">
+                <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
+                <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
+              </div>
+            </div>
+          );
+        })}
       </>
     );
   };

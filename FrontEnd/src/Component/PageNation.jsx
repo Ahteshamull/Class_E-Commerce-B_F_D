@@ -4,36 +4,31 @@ import TShirt from "../Component/TShirt";
 import AllItem from "./AllItem";
 
 // Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5];
 
 
 
-function PaginatedItems({ itemsPerPage }) {
-
-
-    function Items({ currentItems }) {
-      return (
-        <>
-          {currentItems &&
-            currentItems.map((item) => (
-              <div>
-               
-               <TShirt/>
-              </div>
-            ))}
-        </>
-      );
-    }
+function PaginatedItems({ itemsPerPage, allProducts }) {
+  const items = allProducts;
+  function Items({ currentItems }) {
+    return (
+      <>
+        {currentItems &&
+          currentItems.map((item) => (
+            <div>
+              <TShirt allProducts={allProducts} />
+            </div>
+          ))}
+      </>
+    );
+  }
 
   const [itemOffset, setItemOffset] = useState(0);
 
- 
   const endOffset = itemOffset + itemsPerPage;
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const currentItems = items.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
- 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
     console.log(
