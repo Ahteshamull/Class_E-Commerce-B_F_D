@@ -43,29 +43,28 @@ const Login = () => {
           },
         },
       );
-
       if (response.data.data.role === "admin") {
         dispatch(userLoginInfo(response.data.data));
 
         // localStorage.setItem("userData", JSON.stringify(response.data.data))
         Cookie.set(
           "user",
-         String(response.data.data.role + response.data.data.id),
-          { expires: 10/1440 },
+          String(response.data.data.role + response.data.data.id),
+          { expires: 10 / 1440 },
         );
         handleSuccess(response.data.data.message || "Admin Login Success!");
         setTimeout(() => {
           navigate("/");
         }, 1000);
-      } else {
+      }  else  {
         handleError(response.data.error || "Only admin can access this !");
         setLoading(false);
       }
     } catch (error) {
       const { response } = error;
-console.log(response)
-      // handleError(response.data.message);
-      //   setLoading(false);
+     
+      handleError(response.data.message);
+        setLoading(false);
     }
   };
 

@@ -28,18 +28,18 @@ const upload = multer({
   limits: {
     fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
   },
-  fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype === "image/png" ||
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/jpg"
-    ) {
-      cb(null, true); // Accept the file if it's a valid image
-    } else {
-      // Reject the file if it's not a valid image type
-      cb(new Error("Only jpeg, jpg, or png file allowed"));
-    }
-  },
+  // fileFilter: (req, file, cb) => {
+  //   if (
+  //     file.mimetype === "image/png" ||
+  //     file.mimetype === "image/jpeg" ||
+  //     file.mimetype === "image/jpg"
+  //   ) {
+  //     cb(null, true); // Accept the file if it's a valid image
+  //   } else {
+  //     // Reject the file if it's not a valid image type
+  //     cb(new Error("Only jpeg, jpg, or png file allowed"));
+  //   }
+  // },
 });
 
 // Middleware to handle errors

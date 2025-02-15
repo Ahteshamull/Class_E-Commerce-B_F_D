@@ -39,6 +39,9 @@ const AddProduct = () => {
 
  const handleSubmit = async (e) => {
    e.preventDefault();
+ if ( formData.image ===!'jpeg'|| !'jpg'|| !'png') {
+   handleError("Only jpeg, jpg, and png files are supported");
+}
    const token = Cookie.get("token");
    try {
      const dataToSubmit = {
