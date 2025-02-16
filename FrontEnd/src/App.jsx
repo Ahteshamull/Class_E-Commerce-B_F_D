@@ -20,18 +20,21 @@ import CheckOut from "./pages/CheckOut";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+        <Route>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
+          <Route index element={<Home />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/contact" element={<Contact />}></Route>
+
+          <Route path="/card" element={<Card />}></Route>
+          <Route path="/account" element={<Account />}></Route>
+          <Route path="/shop" element={<Shop />}></Route>
+          <Route path="/shop/:view" element={<ProductView />}></Route>
+          <Route path="/password" element={<ForgetPass />}></Route>
+          <Route path="/checkout" element={<CheckOut />}></Route>
+        </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        <Route path="/card" element={<Card />}></Route>
-        <Route path="/account" element={<Account />}></Route>
-        <Route path="/shop" element={<Shop />}></Route>
-        <Route path="/shop/:view" element={<ProductView/>}></Route>
-        <Route path="/password" element={<ForgetPass/>}></Route>
-        <Route path="/checkout" element={<CheckOut/>}></Route>
       </Route>
     </>
   )
