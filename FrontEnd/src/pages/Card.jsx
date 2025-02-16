@@ -312,7 +312,7 @@ const Card = () => {
                     Checkout
                   </button>
                 </Link>
-                <Link to={"/"}>
+                <Link to={"/shop"}>
                   <button
                     type="button"
                     className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md"

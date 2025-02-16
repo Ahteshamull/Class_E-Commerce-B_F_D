@@ -16,7 +16,7 @@ import Account from "./pages/Account";
 import Shop from "./pages/Shop";
 import ProductView from "./pages/ProductView";
 import ForgetPass from "./pages/ForgetPass";
-// import CheckOut from "./pages/ChackOut";
+import CheckOut from "./pages/CheckOut";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -31,7 +31,7 @@ const router = createBrowserRouter(
         <Route path="/shop" element={<Shop />}></Route>
         <Route path="/shop/:view" element={<ProductView/>}></Route>
         <Route path="/password" element={<ForgetPass/>}></Route>
-        {/* <Route path="/checkout" element={<ChackOut/>}></Route> */}
+        <Route path="/checkout" element={<CheckOut/>}></Route>
       </Route>
     </>
   )
