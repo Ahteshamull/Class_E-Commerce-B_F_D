@@ -10,6 +10,7 @@ const productController = async (req, res) => {
     name,
     description,
     cetagory,
+    isFeature,
     sellingPrice,
     discountPrice,
     stock,
@@ -24,6 +25,7 @@ const productController = async (req, res) => {
       description,
       image: images,
       cetagory,
+      isFeature,
       sellingPrice,
       discountPrice,
       stock,
@@ -193,10 +195,28 @@ const singleProduct = async (req, res) => {
     });
   }
 };
+
+const featureProduct = async(req, res) => {
+try {
+  const featureProducts = await productsModel.find({ isFeature: true });
+ return res.status(200).send({
+   success: true,
+   message: "Feature Product Here",
+   featureProducts,
+ });
+} catch (error) {
+  return res.status(500).send({
+    success: false,
+    error: true,
+    message: `${error.message ? error.message : "Internal server error"}`,
+  });
+}
+}
 module.exports = {
   productController,
   deleteProduct,
   updateProduct,
   allProduct,
   singleProduct,
+  featureProduct,
 };

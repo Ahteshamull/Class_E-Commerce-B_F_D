@@ -5,6 +5,7 @@ const {
   updateProduct,
   allProduct,
   singleProduct,
+  featureProduct,
 } = require("../../controllers/productController");
 const router = express.Router();
 const {
@@ -36,4 +37,6 @@ router.patch(
 router.get("/allProduct", allProduct);
 //localhost:3000/api/v1/product/singleProduct/id
 router.get("/singleProduct/:id", singleProduct);
+//localhost:3000/api/v1/product/featureProduct/id
+router.get("/featureProduct", featureProduct);
 module.exports = router;

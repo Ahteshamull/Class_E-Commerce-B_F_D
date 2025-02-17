@@ -25,6 +25,10 @@ const productsSchema = new Schema(
     stock: {
       type: Number,
     },
+    isFeature: {
+      type: Boolean,
+      default:false
+    },
     sellingPrice: {
       type: Number,
       required: true,

@@ -30,7 +30,7 @@ const AllProducts = () => {
   useEffect(() => {
     allProductsItem();
   }, []);
-  console.log(allProductsState);
+ 
   const LoadingState = () => {
     return (
       <>
