@@ -31,7 +31,7 @@ const AllProducts = () => {
     allProductsItem();
   }, []);
   const handleClick = (product) => {
-    console.log(product);
+    console.log(product._id);
   };
   return (
     <>

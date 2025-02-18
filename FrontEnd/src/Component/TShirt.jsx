@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const TShirt = (productItem) => {
-  console.log(productItem)
+
   return (
     <div>
       <div className="font-sans p-4 mx-auto lg:max-w-6xl md:max-w-4xl">
