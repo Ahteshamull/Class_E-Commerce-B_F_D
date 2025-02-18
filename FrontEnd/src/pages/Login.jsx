@@ -45,16 +45,15 @@ const Login = () => {
           }
         )
         .then((response) => {
-        
           dispatch(userLoginInfo(response.data.data));
-
+          localStorage.setItem("user", JSON.stringify(response.data.data));
           handleSuccess(response.data.data.message || "Admin Login Success!");
           setTimeout(() => {
             navigate("/");
           }, 1000);
         })
         .catch((error) => {
-          handleError(error.message ||"Invalid email or password.");
+          handleError(error.message || "Invalid email or password.");
           setLoading(false);
         });
     } catch (error) {

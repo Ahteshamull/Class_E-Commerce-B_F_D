@@ -2,6 +2,7 @@ import React from "react";
 import { FaBagShopping } from "react-icons/fa6";
 import { MdContacts } from "react-icons/md";
 import { Link } from "react-router";
+
 import {
   Navbar,
   MobileNav,
@@ -29,6 +30,7 @@ import Container from "../layout/Container";
 import { FcAbout } from "react-icons/fc";
 import { FaIdCard, FaInfoCircle } from "react-icons/fa";
 import { MdContactPage } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 // profile menu component
 const profileMenuItems = [
@@ -44,6 +46,9 @@ const profileMenuItems = [
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+ 
+
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -144,6 +149,7 @@ const navListItems = [
 ];
 
 function NavList() {
+   const loginUserdata = useSelector((state) => state.user.value);
   return (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
@@ -171,24 +177,20 @@ function NavList() {
               <span className="text-gray-900 font-roboto"> {label}</span>
             </MenuItem>
           </Link>
-          {/* 
-          {icon === FaIdCard && (
-            <Link to={"/card"}>
-              <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
-                <span className="text-gray-900 font-roboto"> {label}</span>
-              </MenuItem>
-            </Link>
-          )} */}
+         
         </Typography>
       ))}
-      <Link to={"/login"}>
-        <Button size="sm" variant="text">
-          <span className="font-roboto text-sm font-medium text-primary">
-            Log In
-          </span>
-        </Button>
-      </Link>
+      {loginUserdata ? (
+        <h2>{loginUserdata.name}</h2>
+      ) : (
+        <Link to={"/login"}>
+          <Button size="sm" variant="text">
+            <span className="font-roboto text-sm font-medium text-primary">
+              Log In
+            </span>
+          </Button>
+        </Link>
+      )}
     </ul>
   );
 }

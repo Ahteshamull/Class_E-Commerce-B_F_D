@@ -30,31 +30,8 @@ const AllProducts = () => {
   useEffect(() => {
     allProductsItem();
   }, []);
- 
-  const LoadingState = () => {
-    return (
-      <>
-        {Array.from({ length: 6 }).map((_, item) => {
-          return (
-            <div
-              key={item}
-              className="max-w-sm w-full p-4 bg-white shadow-md rounded-lg border"
-            >
-              {/* Skeleton Image */}
-              <div className="animate-pulse mb-4">
-                <div className="w-32 h-32 bg-gray-300 rounded-lg mx-auto"></div>
-              </div>
-
-              {/* Skeleton Text */}
-              <div className="animate-pulse space-y-4">
-                <div className="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
-                <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
-              </div>
-            </div>
-          );
-        })}
-      </>
-    );
+  const handleClick = (product) => {
+    console.log(product);
   };
   return (
     <>
@@ -92,6 +69,17 @@ const AllProducts = () => {
                     {item.stock}
                   </p>
                 </div>
+                <Link to={"/card"}>
+                  <div className="flex space-x-4  mb-6">
+                    <button
+                      onClick={() => handleClick(allProductsState)}
+                      className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Add to Cart
+                    </button>
+                    
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

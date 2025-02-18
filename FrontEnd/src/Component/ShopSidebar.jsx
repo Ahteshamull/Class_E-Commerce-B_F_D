@@ -17,7 +17,6 @@ const ShopSidebar = () => {
       return item.sellingPrice >= 0 && item.sellingPrice <= maxValue;
     });
 
-    console.log(filteredProducts);
   };
 
   const allProductsItem = async () => {
