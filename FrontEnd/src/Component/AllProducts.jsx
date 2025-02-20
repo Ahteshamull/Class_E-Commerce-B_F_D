@@ -42,7 +42,7 @@ const AllProducts = () => {
               <div className="w-full">
                 <img
                   src={item.image[0]}
-                  alt="Product 1"
+                  alt="Product"
                   className="w-full object-cover object-top aspect-[230/307]"
                 />
               </div>
