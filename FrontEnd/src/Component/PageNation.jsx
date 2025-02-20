@@ -11,6 +11,7 @@ function PageNation({ itemsPerPage,allProducts }) {
   const items = allProducts;
 
   function Items({ currentItems }) {
+  
     return (
       <>
         {currentItems &&

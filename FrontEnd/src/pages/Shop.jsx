@@ -18,6 +18,7 @@ const Shop = () => {
     resizeScreen();
     window.addEventListener("resize", resizeScreen);
   }, []);
+ 
   return (
     <section className="mt-10 mb-10">
       <Container>
@@ -39,7 +40,8 @@ const Shop = () => {
           )}
 
           <div className=" col-span-12 lg:col-span-9">
-            <AllProducts />
+         <AllProducts />
+            
           </div>
         </div>
       </Container>
