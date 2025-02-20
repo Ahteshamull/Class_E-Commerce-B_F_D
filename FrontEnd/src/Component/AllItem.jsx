@@ -1,33 +1,29 @@
 import React from 'react'
+import { Link } from 'react-router';
 
-const AllItem = (productItem) => {
+
+const AllItem = () => {
   return (
-    <div>
-      {" "}
-      <div className="font-sans bg-gray-50 px-4 py-8">
-        <div className="mx-auto lg:max-w-6xl md:max-w-4xl">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-           
-            <div className="bg-white p-3 cursor-pointer shadow-sm rounded-md hover:scale-[1.03] transition-all">
-              <div className="w-full overflow-hidden mx-auto">
-                <img
-                  src="https://readymadeui.com/images/product14.webp"
-                  alt="product2"
-                  className="aspect-[108/82] w-full object-contain"
-                />
-              </div>
-              <div className="text-center mt-4">
-                <h3 className="text-sm font-bold text-gray-800">
-                  Echo Elegance
-                </h3>
-                <h4 className="text-sm text-blue-600 font-bold mt-2">$20.00</h4>
-              </div>
-            </div>
-    
+    <Link to={"/shop/:view"}>
+      <div className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+        <div className="mb-4 bg-gray-100 rounded p-2">
+          <img
+            src="https://readymadeui.com/images/product9.webp"
+            alt="Product 1"
+            className="aspect-[33/35] w-full object-contain"
+          />
+        </div>
+        <div>
+          <div className="flex gap-2">
+            <h5 className="text-base font-bold text-gray-800">Sole Elegance</h5>
+            <h6 className="text-base text-gray-800 font-bold ml-auto">$10</h6>
           </div>
+          <p className="text-gray-500 text-[13px] mt-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

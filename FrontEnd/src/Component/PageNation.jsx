@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
-import TShirt from "../Component/TShirt";
 import AllItem from "./AllItem";
 
 // Example items, to simulate fetching from another resources.
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,15,16];
 
 
-
-function PaginatedItems({ itemsPerPage, allProducts }) {
-  const items = allProducts;
+function PageNation({ itemsPerPage }) {
   function Items({ currentItems }) {
     return (
       <>
         {currentItems &&
           currentItems.map((item) => (
             <div>
-              <TShirt allProducts={allProducts} />
+              <AllItem/>
             </div>
           ))}
       </>
@@ -24,10 +23,12 @@ function PaginatedItems({ itemsPerPage, allProducts }) {
 
   const [itemOffset, setItemOffset] = useState(0);
 
+  
   const endOffset = itemOffset + itemsPerPage;
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const currentItems = items.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
+
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
@@ -50,12 +51,11 @@ function PaginatedItems({ itemsPerPage, allProducts }) {
         renderOnZeroPageCount={null}
         activeClassName="bg-red-500"
         containerClassName="flex gap-5 items-center mt-3"
-        nextClassName="bg-primary text-md text-white px-2 py-1"
-        previousClassName="bg-primary text-md text-white px-2 py-1"
+        nextClassName="bg-primary text-md text-white px-2 py-1 select-none"
+        previousClassName="bg-primary text-md text-white px-2 py-1 select-none"
         pageClassName="bg-primary text-md text-white px-2 py-1 rounded-full"
       />
     </>
   );
 }
-
-export default PaginatedItems
+export default PageNation;
