@@ -11,7 +11,7 @@ const Footer = () => {
 
           <hr class="border-gray-600 mb-8" />
 
-          <div class="flex flex-wrap sm:justify-between gap-6 relative z-20">
+          <div class="flex  flex-wrap sm:justify-between gap-6 relative z-20">
             <div class="flex space-x-5">
               <a
                 href="javascript:void(0)"

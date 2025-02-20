@@ -4,17 +4,19 @@ import ReactPaginate from "react-paginate";
 import AllItem from "./AllItem";
 
 // Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,15,16];
 
 
-function PageNation({ itemsPerPage }) {
+function PageNation({ itemsPerPage,allProducts }) {
+  
+  const items = allProducts;
+
   function Items({ currentItems }) {
     return (
       <>
         {currentItems &&
           currentItems.map((item) => (
             <div>
-              <AllItem/>
+              <AllItem productItem={item } />
             </div>
           ))}
       </>
