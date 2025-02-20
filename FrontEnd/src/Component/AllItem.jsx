@@ -1,15 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const AllItem = ({ productItem }) => {
-  
+  const navigate = useNavigate()
+  const handleProductId = (item) => {
+    navigate(`/shop/view/${item}`);
+    console.log(item)
+  }
   return (
 
-    <Link to={"/shop/:view"}>
-      <div className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+    
+      <div onClick={()=>handleProductId(productItem._id)} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
         <div className="mb-4 bg-gray-100 rounded p-2">
           <img
-            src={productItem.image}
+            src={productItem.image[0]}
             alt="Product 1"
             className="aspect-[33/35] w-full object-contain"
           />
@@ -24,7 +28,7 @@ const AllItem = ({ productItem }) => {
           </p>
         </div>
       </div>
-    </Link>
+   
   
   
   )

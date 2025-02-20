@@ -58,12 +58,11 @@ const incrementCart = async (req, res) => {
         incrementCart,
       });
     } else {
-       return res.status(200).send({
-         success: true,
-         error: false,
-         message: "Out of Stock",
-        
-       });
+      return res.status(200).send({
+        success: true,
+        error: false,
+        message: "Out of Stock",
+      });
     }
   } catch (error) {
     return res.status(500).send({

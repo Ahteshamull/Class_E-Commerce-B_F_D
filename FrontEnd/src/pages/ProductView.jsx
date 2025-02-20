@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../layout/Container';
 import { Link } from 'react-router';
+import axios from 'axios';
+import { useParams } from 'react-router';
 
-const ProductView = ({productItem}) => {
-  const handleClick = (product) => {
-  console.log(product)
+const ProductView = () => {
+
+  const [singleProduct, setSingleProduct] = useState({})
+  const [productImage, setProductImage] = useState([])
+  const { id } = useParams();
+  const SingleProduct = () => {
+    const response = axios.get(
+      `http://localhost:3000/api/v1/product/singleProduct/${id}`
+    ).then((response) => {
+      setSingleProduct(response.data.singleProduct);
+      setProductImage(response.data.singleProduct.image)
+    }).catch((error)=> {
+  console.log(error)
+    })
 }
-
-
+  useEffect(() => {
+  SingleProduct()
+},[])
 
   return (
     <div className="mt-5 mb-5">
@@ -18,37 +32,23 @@ const ProductView = ({productItem}) => {
               {/* Product Images */}
               <div className="w-full md:w-1/2 px-4 mb-8">
                 <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
+                  src={productImage[0]}
                   alt="Product"
                   className="w-full h-auto rounded-lg shadow-md mb-4"
                   id="mainImage"
                 />
-                <div className="flex gap-4 py-4 justify-center overflow-x-auto">
-                  <img
-                    src="https://images.unsplash.com/photo-1505751171710-1f6d0ace5a85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxMnx8aGVhZHBob25lfGVufDB8MHx8fDE3MjEzMDM2OTB8MA&ixlib=rb-4.0.3&q=80&w=1080"
-                    alt="Thumbnail 1"
-                    className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-                    onclick="changeImage(this.src)"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1484704849700-f032a568e944?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw0fHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                    alt="Thumbnail 2"
-                    className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-                    onclick="changeImage(this.src)"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1496957961599-e35b69ef5d7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                    alt="Thumbnail 3"
-                    className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-                    onclick="changeImage(this.src)"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                    alt="Thumbnail 4"
-                    className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-                    onclick="changeImage(this.src)"
-                  />
-                </div>
+                  <div className="flex flex-col-6 gap-4 py-4 justify-center overflow-x-auto">
+                {productImage.map((item) => (
+                    
+                      <img
+                        src={item}
+                        alt="Thumbnail 4"
+                        className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+                        onclick="changeImage(this.src)"
+                      />
+                  
+                    ))}
+                  </div>
               </div>
               {/* Product Details */}
               <div className="w-full md:w-1/2 px-4">
@@ -153,8 +153,8 @@ const ProductView = ({productItem}) => {
                   />
                 </div>
 
-                  <div className="flex space-x-4  mb-6">
-                <Link to={"/card"}>
+                <div className="flex space-x-4  mb-6">
+                  <Link to={"/card"}>
                     <button
                       onClick={() => handleClick(productItem)}
                       className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -163,13 +163,11 @@ const ProductView = ({productItem}) => {
                     </button>
                   </Link>
                   <Link to={"/shop"}>
-                  
                     <button className="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                      
                       Back
                     </button>
                   </Link>
-                  </div>
+                </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
                   <ul className="list-disc list-inside text-gray-700">

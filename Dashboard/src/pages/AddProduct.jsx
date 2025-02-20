@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { handleError, handleSuccess } from "./../Util";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 import Cookie from "js-cookie";
 
-
 const AddProduct = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [allCategories, setAllCategories] = useState([]);
   const [allStore, setAllStore] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: "",
-   sellingPrice:"",
+    image: [],
+    sellingPrice: "",
     discountPrice: "",
     category: "",
     store: "",
@@ -37,60 +36,60 @@ const AddProduct = () => {
     });
   };
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
- if ( formData.image ===!'jpeg'|| !'jpg'|| !'png') {
-   handleError("Only jpeg, jpg, and png files are supported");
-}
-   const token = Cookie.get("token");
-   try {
-     const dataToSubmit = {
-       ...formData,
-       category: formData.category._id,
-       store: formData.store._id,
-     };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.image === !"jpeg" || !"jpg" || !"png") {
+      handleError("Only jpeg, jpg, and png files are supported");
+    }
+    const token = Cookie.get("token");
+    try {
+      const dataToSubmit = {
+        ...formData,
+        category: formData.category._id,
+        store: formData.store._id,
+      };
 
-     // Handle optional discount price field
-     if (!formData.discountPrice) {
-       delete dataToSubmit.discountPrice;
-     }
+      // Handle optional discount price field
+      if (!formData.discountPrice) {
+        delete dataToSubmit.discountPrice;
+      }
 
-     const response = await axios.post(
-       "http://localhost:3000/api/v1/product/createProduct",
-       dataToSubmit,
-       {
-         headers: {
-           "Content-Type": "multipart/form-data",
-           Cookie: `token=${token}`,
-         },
-         withCredentials: true,
-       },
-     );
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/product/createProduct",
+        dataToSubmit,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Cookie: `token=${token}`,
+          },
+          withCredentials: true,
+        },
+      );
 
-     const data = await response.data;
-     const { success, message } = data;
+      const data = await response.data;
+      const { success, message } = data;
 
-     if (success) {
-       setFormData({
-         name: "",
-         description: "",
-         image: "",
-         sellingPrice: "",
-         discountPrice: "",
-         category: "",
-         store: "",
-         stock: "",
-       });
-       handleSuccess(message);
-       setTimeout(() => {
-         navigate("/all-products");
-       }, 1000);
-     }
-   } catch (error) {
-     const { response } = error;
-     handleError(response.data.message);
-   }
- };
+      if (success) {
+        setFormData({
+          name: "",
+          description: "",
+          image: [],
+          sellingPrice: "",
+          discountPrice: "",
+          category: "",
+          store: "",
+          stock: "",
+        });
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/all-products");
+        }, 1000);
+      }
+    } catch (error) {
+      const { response } = error;
+      handleError(response.data.message);
+    }
+  };
 
   useEffect(() => {
     async function getAllCetagory() {
@@ -106,7 +105,6 @@ const AddProduct = () => {
     }
     getAllCetagory();
   }, []);
-
 
   useEffect(() => {
     async function getAllStore() {
@@ -224,7 +222,7 @@ const AddProduct = () => {
 
         <div>
           <label className="block text-lg font-medium text-gray-700">
-           Selling Price
+            Selling Price
           </label>
           <input
             type="number"
@@ -265,4 +263,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-
