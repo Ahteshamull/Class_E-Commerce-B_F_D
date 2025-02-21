@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
 import { useSelector } from 'react-redux';
-import { handleSuccess } from './../Toast';
+import { handleError, handleSuccess } from './../Toast';
 import { ToastContainer } from 'react-toastify';
 
 const ProductView = () => {
@@ -41,11 +41,19 @@ const ProductView = () => {
       const response = axios.post(
         "http://localhost:3000/api/v1/cart/add-to-cart",
         {
-          user:loginUserdata._id,
+          user:loginUserdata.id,
           products:product._id
          
         }
-      );
+      ).then((response) => {
+        console.log(response)
+        handleSuccess(response.data.message || "Product Add to card success")
+        setTimeout(() => {
+          navigate("/card")
+        }, 2000);
+      }).catch((error) => {
+        handleError(error.response.data.message)
+      })
       
     }
 }
