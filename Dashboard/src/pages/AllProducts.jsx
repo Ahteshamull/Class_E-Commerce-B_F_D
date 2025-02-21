@@ -158,82 +158,86 @@ export function AllProducts() {
       const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
       return (
-        <tr key={product._id}>
-          <td className={classes}>
-            <div className="flex items-center gap-3">
-              <img
-                src={product.image[0]} // Assuming the first image is displayed
-                alt={product.name}
-                className="h-12 w-12 rounded border bg-gray-200 object-contain p-1"
-              />
-            </div>
-          </td>
-          <td className={classes}>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {product.name}
-            </Typography>
-          </td>
-          <td className={classes}>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {product.description}
-            </Typography>
-          </td>
-          <td className={classes}>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              ${product.sellingPrice}
-            </Typography>
-          </td>
-          <td className={classes}>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {product.discountPrice ? `$${product.discountPrice}` : "N/A"}
-            </Typography>
-          </td>
-          <td className={classes}>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
-              {product.category}
-            </Typography>
-          </td>
-          <td className={classes}>
-            <Tooltip content="Edit Product">
-              <IconButton
-                variant="text"
-                onClick={() => handleEdit(product._id)}
-              >
-                <PencilIcon className="h-4 w-4" />
-              </IconButton>
-            </Tooltip>
-          </td>
-          <td className={classes}>
-            <Tooltip content="Delete Product">
-              <IconButton
-                variant="text"
-                onClick={() => handleDelete(product._id)}
-              >
-                <TrashIcon className="h-4 w-4" />
-              </IconButton>
-            </Tooltip>
-          </td>
-        </tr>
+     
+              <tr key={product._id}>
+                <td className={classes}>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={product.image[0]} // Assuming the first image is displayed
+                      alt={product.name}
+                      className="h-12 w-12 rounded border bg-gray-200 object-contain p-1"
+                    />
+                  </div>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {product.name}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {product.description}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    ${product.sellingPrice}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {product.discountPrice
+                      ? `$${product.discountPrice}`
+                      : "N/A"}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {product.category}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Tooltip content="Edit Product">
+                    <IconButton
+                      variant="text"
+                      onClick={() => handleEdit(product._id)}
+                    >
+                      <PencilIcon className="h-4 w-4" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+                <td className={classes}>
+                  <Tooltip content="Delete Product">
+                    <IconButton
+                      variant="text"
+                      onClick={() => handleDelete(product._id)}
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+              </tr>
+         
       );
     });
   };

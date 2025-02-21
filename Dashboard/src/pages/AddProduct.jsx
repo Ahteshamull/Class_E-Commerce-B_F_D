@@ -12,7 +12,7 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: [],
+    image: " ",
     sellingPrice: "",
     discountPrice: "",
     category: "",
@@ -29,67 +29,61 @@ const AddProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files[0], // Only take the first file uploaded
-    });
+    const files = Array.from(e.target.files); // Convert FileList to Array
+
+    setFormData((prevState) => ({
+      ...prevState,
+      image: files, // Store all selected images
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formData.image === !"jpeg" || !"jpg" || !"png") {
-      handleError("Only jpeg, jpg, and png files are supported");
-    }
-    const token = Cookie.get("token");
-    try {
-      const dataToSubmit = {
-        ...formData,
-        category: formData.category._id,
-        store: formData.store._id,
-      };
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
-      // Handle optional discount price field
-      if (!formData.discountPrice) {
-        delete dataToSubmit.discountPrice;
-      }
+   if (!formData.image || formData.image.length === 0) {
+     return handleError("Please select at least one image");
+   }
 
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/product/createProduct",
-        dataToSubmit,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Cookie: `token=${token}`,
-          },
-          withCredentials: true,
-        },
-      );
+   const token = Cookie.get("token");
+   const dataToSubmit = new FormData(); // Use FormData to handle file uploads
 
-      const data = await response.data;
-      const { success, message } = data;
+   dataToSubmit.append("name", formData.name);
+   dataToSubmit.append("description", formData.description);
+   dataToSubmit.append("sellingPrice", formData.sellingPrice);
+   dataToSubmit.append("discountPrice", formData.discountPrice);
+   dataToSubmit.append("category", formData.category);
+   dataToSubmit.append("store", formData.store);
+   dataToSubmit.append("stock", formData.stock);
 
-      if (success) {
-        setFormData({
-          name: "",
-          description: "",
-          image: [],
-          sellingPrice: "",
-          discountPrice: "",
-          category: "",
-          store: "",
-          stock: "",
-        });
-        handleSuccess(message);
-        setTimeout(() => {
-          navigate("/all-products");
-        }, 1000);
-      }
-    } catch (error) {
-      const { response } = error;
-      handleError(response.data.message);
-    }
-  };
+   // Append multiple images
+   formData.image.forEach((file) => {
+     dataToSubmit.append("image", file); // "image" should match the backend field
+   });
+
+   try {
+     const response = await axios.post(
+       "http://localhost:3000/api/v1/product/createProduct",
+       dataToSubmit,
+       {
+         headers: {
+           "Content-Type": "multipart/form-data",
+           Cookie: `token=${token}`,
+         },
+         withCredentials: true,
+       },
+     );
+
+     const { success, message } = response.data;
+     if (success) {
+       handleSuccess(message);
+       setTimeout(() => {
+         navigate("/all-products");
+       }, 1000);
+     }
+   } catch (error) {
+     handleError(error.response.data.message);
+   }
+ };
 
   useEffect(() => {
     async function getAllCetagory() {
@@ -121,6 +115,8 @@ const AddProduct = () => {
     getAllStore();
   }, []);
 
+
+  console.log(formData)
   return (
     <div className="mx-auto w-full overflow-hidden rounded-xl bg-white p-8 shadow-2xl">
       <h2 className="mb-6 text-center text-3xl font-semibold text-gray-800">
@@ -161,8 +157,7 @@ const AddProduct = () => {
           <input
             type="file"
             name="image"
-            required
-            multiple
+            multiple // Allow multiple image selection
             onChange={handleFileChange}
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           />
