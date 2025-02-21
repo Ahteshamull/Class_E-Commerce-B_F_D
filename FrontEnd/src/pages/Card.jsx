@@ -1,8 +1,30 @@
 import React from "react";
 import Container from "../layout/Container";
 import { Link } from "react-router";
+import { useEffect } from "react";
+import { useState } from "react";
+import  axios  from 'axios';
+import { useSelector } from "react-redux";
 
 const Card = () => {
+  const [products, setProducts] = useState([]);
+ const loginUserdata = useSelector((state) => state.user.value);
+
+  const fetchProducts = async () => {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/cart/single-cart/${loginUserdata.id}`
+    ).then((response) => {
+      setProducts(response.data.singleCart);
+      console.log(response.data);
+    }).catch((error) => { 
+      console.error('Error fetching cart:', error);
+    })
+   
+  };
+
+  useEffect(() => {
+    fetchProducts()
+  },[])
   return (
     <div>
       <Container>
