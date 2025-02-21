@@ -47,7 +47,7 @@ const Login = () => {
         .then((response) => {
           dispatch(userLoginInfo(response.data.data));
           localStorage.setItem("user", JSON.stringify(response.data.data));
-          handleSuccess(response.data.data.message || "Admin Login Success!");
+          handleSuccess(response.data.data.message||"Login Successfully" );
           setTimeout(() => {
             navigate("/");
           }, 1000);
