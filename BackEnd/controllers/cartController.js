@@ -27,7 +27,7 @@ const addToCart = async (req, res) => {
 const singleCart = async (req, res) => {
   const { userId } = req.params;
   try {
-    const singleCart = await cartModel.find({ user: userId });
+    const singleCart = await cartModel.find({ user: userId }).populate("products")
     return res.status(200).send({
       success: true,
       error: false,
