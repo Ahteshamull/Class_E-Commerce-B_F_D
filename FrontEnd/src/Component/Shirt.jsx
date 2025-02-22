@@ -75,9 +75,7 @@ const Shirt = () => {
                     <h3 className="text-sm font-bold text-gray-800">
                       {item.name}
                     </h3>
-                    <h4 className="text-sm text-blue-600 font-bold mt-2">
-                      {item.description}
-                    </h4>
+                   
                   </div>
                 </div>
               ))

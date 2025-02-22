@@ -79,7 +79,7 @@ const Banner = () => {
       {images.length > 1 ? (
         <Slider {...settings}>
           {images.map((item, index) => (
-            <Images src={item.image} alt={"Banner Image"} />
+            <Images className="object-cover w-full" src={item.image} alt={"Banner Image"} />
           ))}
         </Slider>
       ) : (

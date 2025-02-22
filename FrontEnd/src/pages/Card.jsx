@@ -1,65 +1,110 @@
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Container from "../layout/Container";
 import { Link } from "react-router";
-import { useEffect } from "react";
-import { useState } from "react";
-import  axios  from 'axios';
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { handleError, handleSuccess } from "../Toast";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 const Card = () => {
   const [products, setProducts] = useState([]);
- const loginUserdata = useSelector((state) => state.user.value);
-
-  const fetchProducts = async () => {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/cart/single-cart/${loginUserdata.id}`
-    ).then((response) => {
-      setProducts(response.data.singleCart);
-      
-    }).catch((error) => { 
-      console.error('Error fetching cart:', error);
-    })
-   
-  };
+  const loginUserdata = useSelector((state) => state.user.value);
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
-  
+    if (loginUserdata?.id) {
+      fetchProducts();
+    }
+  }, [loginUserdata?.id]);
 
-  const handleRemoveCart = (product) => {
-    axios
-      .delete(
-        `http://localhost:3000/api/v1/cart/deleteCartProduct/${product._id}`,
-       
-      )
-      .then((response) => {
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/cart/single-cart/${loginUserdata.id}`
+      );
+      setProducts(response.data.singleCart || []);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  };
 
-        handleSuccess(response.data.message);
-      })
-      .catch((error) => {
-        handleError("Error removing from cart:", error);
-      });
- 
-  }
+  const handleRemoveCart = async (product) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/v1/cart/deleteCartProduct/${product._id}`
+      );
+      handleSuccess(response.data.message);
+      fetchProducts();
+    } catch (error) {
+      handleError("Error removing from cart:", error);
+    }
+  };
+
+  const handleProductDecrement = async (product) => {
+    if (product.quantity > 1) {
+      try {
+        await axios.patch(
+          `http://localhost:3000/api/v1/cart/decrementCart/${product._id}`
+        );
+        fetchProducts();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleProductIncrement = async (product) => {
+    try {
+      await axios.patch(
+        `http://localhost:3000/api/v1/cart/incrementCart/${product._id}`
+      );
+      fetchProducts();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const { subtotal, totalDiscount, grandTotal } = useMemo(() => {
+    let subtotal = products.reduce(
+      (acc, product) => acc + product.products.discountPrice * product.quantity,
+      0
+    );
+
+    let totalDiscount = products.reduce(
+      (acc, product) =>
+        acc +
+        (product.products.sellingPrice - product.products.discountPrice) *
+          product.quantity,
+      0
+    );
+
+    const shipping = 2.0;
+    const tax = 4.0;
+    let grandTotal = subtotal + shipping + tax;
+
+    return { subtotal, totalDiscount, grandTotal };
+  }, [products]);
+
   return (
     <div>
       <Container>
-        <div className="font-roboto  md:max-w-4xl max-md:max-w-xl mx-auto bg-white py-4 mt-10 mb-10">
+        <div className="font-roboto md:max-w-4xl max-md:max-w-xl mx-auto bg-white py-4 mt-10 mb-10">
           <div className="grid md:grid-cols-3 gap-4">
+            {/* Cart Items Section */}
             <div className="md:col-span-2 bg-gray-100 p-4 rounded-md">
               <h2 className="text-2xl font-bold text-gray-800">Cart</h2>
               <hr className="border-gray-300 mt-4 mb-8" />
               <div className="space-y-4">
                 {products?.map((product) => (
-                  <div className="grid grid-cols-3 items-center gap-4">
+                  <div
+                    key={product._id}
+                    className="grid grid-cols-3 items-center gap-4"
+                  >
                     <div className="col-span-2 flex items-center gap-4">
                       <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
                         <img
                           src={product.products.image[0]}
                           className="w-full h-full object-contain"
+                          alt={product.products.name}
                         />
                       </div>
                       <div>
@@ -73,34 +118,28 @@ const Card = () => {
                           Remove
                         </h6>
                         <div className="flex gap-4 mt-4">
-                          <div>
-                            <button
-                              type="button"
-                              className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                          <button
+                            type="button"
+                            className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                          >
+                            <svg
+                              onClick={() => handleProductDecrement(product)}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-2.5 fill-current"
+                              viewBox="0 0 124 124"
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 124 124"
-                              >
-                                <path
-                                  d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                              <span className="mx-2.5">{product.quantity}</span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-2.5 fill-current"
-                                viewBox="0 0 42 42"
-                              >
-                                <path
-                                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </button>
-                          </div>
+                              <path d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z" />
+                            </svg>
+                            <span className="mx-2.5">{product.quantity}</span>
+                            <svg
+                              onClick={() => handleProductIncrement(product)}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-2.5 fill-current"
+                              viewBox="0 0 42 42"
+                            >
+                              <path d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -108,28 +147,29 @@ const Card = () => {
                       <h4 className="text-base font-bold text-gray-800">
                         ${product.products.discountPrice}
                       </h4>
+                      <h6 className="text-xs text-gray-600 line-through">
+                        ${product.products.sellingPrice}
+                      </h6>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Summary Section */}
             <div className="bg-gray-100 rounded-md p-4 md:sticky top-0">
-              <div className="flex border border-blue-600 overflow-hidden rounded-md">
-                <input
-                  type="email"
-                  placeholder="Promo code"
-                  className="w-full outline-none bg-white text-gray-600 text-sm px-4 py-2.5"
-                />
-                <button
-                  type="button"
-                  className="flex items-center justify-center font-semibold tracking-wide bg-blue-600 hover:bg-blue-700 px-4 text-sm text-white"
-                >
-                  Apply
-                </button>
-              </div>
               <ul className="text-gray-800 mt-8 space-y-4">
                 <li className="flex flex-wrap gap-4 text-base">
-                  Discount <span className="ml-auto font-bold">$0.00</span>
+                  Subtotal{" "}
+                  <span className="ml-auto font-bold">
+                    ${subtotal.toFixed(2)}
+                  </span>
+                </li>
+                <li className="flex flex-wrap gap-4 text-base">
+                  Discount{" "}
+                  <span className="ml-auto font-bold">
+                    -${totalDiscount.toFixed(2)}
+                  </span>
                 </li>
                 <li className="flex flex-wrap gap-4 text-base">
                   Shipping <span className="ml-auto font-bold">$2.00</span>
@@ -138,23 +178,18 @@ const Card = () => {
                   Tax <span className="ml-auto font-bold">$4.00</span>
                 </li>
                 <li className="flex flex-wrap gap-4 text-base font-bold">
-                  Total <span className="ml-auto">$52.00</span>
+                  Total{" "}
+                  <span className="ml-auto">${grandTotal.toFixed(2)}</span>
                 </li>
               </ul>
-              <div className="mt-8 space-y-2">
+              <div className="mt-8 space-y-2 ">
                 <Link to={"/checkout"}>
-                  <button
-                    type="button"
-                    className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                  >
+                  <button className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-blue-600 hover:bg-blue-700 text-white rounded-md">
                     Checkout
                   </button>
                 </Link>
                 <Link to={"/shop"}>
-                  <button
-                    type="button"
-                    className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md"
-                  >
+                  <button className="text-sm px-4 mt-5 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md">
                     Continue Shopping
                   </button>
                 </Link>
@@ -163,7 +198,7 @@ const Card = () => {
           </div>
         </div>
       </Container>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
