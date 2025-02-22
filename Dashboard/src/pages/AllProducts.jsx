@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon, StarIcon } from "@heroicons/react/24/solid";
 import {
   ArrowDownTrayIcon,
   MagnifyingGlassIcon,
@@ -28,6 +28,7 @@ const TABLE_HEAD = [
   "Category",
   "Edit",
   "Delete",
+  "Feature", // Add Feature column
 ];
 
 export function AllProducts() {
@@ -35,7 +36,6 @@ export function AllProducts() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // For controlling modal visibility
   const [productToEdit, setProductToEdit] = useState(null);
- // Store the product to edit
   const [updatedProduct, setUpdatedProduct] = useState({
     name: "",
     description: "",
@@ -143,12 +143,33 @@ export function AllProducts() {
     }
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to array
-    setUpdatedProduct((prevState) => ({
-      ...prevState,
-      image: files, // Update state with selected files
-    }));
+  const handleFeatureProduct = async (id) => {
+    const token = Cookie.get("token");
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/product/featureProduct/id/${id}`,
+        {},
+        {
+          headers: {
+            Cookie: `token=${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log(response)
+      handleSuccess(response.data.message);
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product._id === id
+            ? { ...product, isFeature: !product.isFeature }
+            : product,
+        ),
+      );
+    } catch (error) {
+      handleError(
+        error.response?.data.message || "Error updating feature status",
+      );
+    }
   };
 
   // Render product rows dynamically
@@ -158,86 +179,99 @@ export function AllProducts() {
       const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
       return (
-     
-              <tr key={product._id}>
-                <td className={classes}>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={product.image[0]} // Assuming the first image is displayed
-                      alt={product.name}
-                      className="h-12 w-12 rounded border bg-gray-200 object-contain p-1"
-                    />
-                  </div>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {product.name}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {product.description}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    ${product.sellingPrice}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {product.discountPrice
-                      ? `$${product.discountPrice}`
-                      : "N/A"}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {product.category}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Tooltip content="Edit Product">
-                    <IconButton
-                      variant="text"
-                      onClick={() => handleEdit(product._id)}
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                  </Tooltip>
-                </td>
-                <td className={classes}>
-                  <Tooltip content="Delete Product">
-                    <IconButton
-                      variant="text"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                  </Tooltip>
-                </td>
-              </tr>
-         
+        <tr key={product._id}>
+          <td className={classes}>
+            <div className="flex items-center gap-3">
+              <img
+                src={product.image[0]} // Assuming the first image is displayed
+                alt={product.name}
+                className="h-12 w-12 rounded border bg-gray-200 object-contain p-1"
+              />
+            </div>
+          </td>
+          <td className={classes}>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              {product.name}
+            </Typography>
+          </td>
+          <td className={classes}>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              {product.description}
+            </Typography>
+          </td>
+          <td className={classes}>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              ${product.sellingPrice}
+            </Typography>
+          </td>
+          <td className={classes}>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              {product.discountPrice ? `$${product.discountPrice}` : "N/A"}
+            </Typography>
+          </td>
+          <td className={classes}>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              {product.category}
+            </Typography>
+          </td>
+          <td className={classes}>
+            <Tooltip content="Edit Product">
+              <IconButton
+                variant="text"
+                onClick={() => handleEdit(product._id)}
+              >
+                <PencilIcon className="h-4 w-4" />
+              </IconButton>
+            </Tooltip>
+          </td>
+          <td className={classes}>
+            <Tooltip content="Delete Product">
+              <IconButton
+                variant="text"
+                onClick={() => handleDelete(product._id)}
+              >
+                <TrashIcon className="h-4 w-4" />
+              </IconButton>
+            </Tooltip>
+          </td>
+          {/* Feature Button */}
+          <td className={classes}>
+            <Tooltip
+              content={
+                product.isFeature ? "Unfeature Product" : "Feature Product"
+              }
+            >
+              <IconButton
+                variant="text"
+                onClick={() => handleFeatureProduct(product._id)}
+              >
+                <StarIcon
+                  className={`h-4 w-4 ${product.isFeature ? "text-yellow-500" : "text-gray-500"}`}
+                />
+              </IconButton>
+            </Tooltip>
+          </td>
+        </tr>
       );
     });
   };
@@ -288,7 +322,7 @@ export function AllProducts() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="p-4 text-center">
+                <td colSpan={9} className="p-4 text-center">
                   <Typography variant="small" color="blue-gray">
                     Loading products...
                   </Typography>
@@ -324,7 +358,7 @@ export function AllProducts() {
         </Button>
       </CardFooter>
 
-      {/* Modern Modal for Editing Product */}
+      {/* Modal for Editing Product */}
       {isModalOpen && (
         <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
           <div className="w-1/3 space-y-4 rounded-xl bg-white p-8 shadow-lg">

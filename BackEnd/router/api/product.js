@@ -38,5 +38,5 @@ router.get("/allProduct", allProduct);
 //localhost:3000/api/v1/product/singleProduct/id
 router.get("/singleProduct/:id", singleProduct);
 //localhost:3000/api/v1/product/featureProduct/id
-router.get("/featureProduct", featureProduct);
+router.get("/featureProduct/:id", featureProduct);
 module.exports = router;
