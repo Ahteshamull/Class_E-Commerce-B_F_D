@@ -2,7 +2,7 @@ import React from 'react'
 
 const Camera = () => {
   return (
-    <div>Camera</div>
+    <div className="bg-red-500">Camera</div>
   )
 }
 
