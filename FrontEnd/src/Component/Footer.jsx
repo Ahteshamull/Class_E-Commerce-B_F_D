@@ -1,10 +1,9 @@
 import React from 'react'
-import Container from '../layout/Container';
+
 
 const Footer = () => {
   return (
-    // <Container>
-    // </Container>
+
       <footer class="bg-[#0b0e37] font-roboto pt-12 pb-8 px-12 tracking-wide relative overflow-hidden">
         <div class="max-w-screen-xl mx-auto">
        
