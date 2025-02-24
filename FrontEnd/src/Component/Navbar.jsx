@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBagShopping } from "react-icons/fa6";
 import { MdContacts } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import {
   Navbar,
@@ -30,7 +30,7 @@ import Container from "../layout/Container";
 import { FcAbout } from "react-icons/fc";
 import { FaIdCard, FaInfoCircle } from "react-icons/fa";
 import { MdContactPage } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // profile menu component
 const profileMenuItems = [
@@ -47,11 +47,16 @@ const profileMenuItems = [
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
- 
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+const loginUserdata = useSelector((state) => state.user.value);
 
   const closeMenu = () => setIsMenuOpen(false);
-
+   const handleSignOut = () => {
+      dispatch({ type: "LOGOUT" }); 
+     localStorage.removeItem("user");
+     location.reload();
+   };
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -81,7 +86,7 @@ function ProfileMenu() {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={label === "Sign Out" ? handleSignOut : closeMenu}
               className={`flex  items-center gap-2 rounded  font-medium${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

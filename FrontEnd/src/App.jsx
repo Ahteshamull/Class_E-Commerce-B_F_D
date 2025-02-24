@@ -17,6 +17,7 @@ import Shop from "./pages/Shop";
 import ProductView from "./pages/ProductView";
 import ForgetPass from "./pages/ForgetPass";
 import CheckOut from "./pages/CheckOut";
+import UserProfile from "./pages/UserProfile";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
           <Route path="/about" element={<About />}></Route>
+          <Route path="/user-profile" element={<UserProfile />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/card" element={<Card />}></Route>
           <Route path="/account" element={<Account />}></Route>

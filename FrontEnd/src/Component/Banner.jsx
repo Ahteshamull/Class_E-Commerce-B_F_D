@@ -11,6 +11,8 @@ const Banner = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
     appendDots: (dots) => (
       <div
         style={{
@@ -29,8 +31,7 @@ const Banner = () => {
             cursor: "pointer",
           }}
         >
-          {" "}
-          {dots}{" "}
+          {dots}
         </ul>
       </div>
     ),
@@ -50,7 +51,37 @@ const Banner = () => {
         {i + 1}
       </div>
     ),
+    responsive: [
+      {
+        breakpoint: 1024, // For tablet screens and above
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768, // For mobile screens (portrait)
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 480, // For very small screens (mobile landscape or smaller)
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+    ],
   };
+
   const images = [
     {
       image:
@@ -64,7 +95,6 @@ const Banner = () => {
       image:
         "https://img.lazcdn.com/us/domino/3cdec980-a668-4f93-a85a-99982b39a6a3_BD-1976-688.jpg_2200x2200q80.jpg",
     },
-
     {
       image:
         "https://img.lazcdn.com/us/domino/70745ee8-bb44-48d9-8a31-8cfb00d8820a_BD-1976-688.jpg_2200x2200q80.jpg",
@@ -74,12 +104,18 @@ const Banner = () => {
         "https://img.lazcdn.com/us/domino/45839ec3-ecf0-4c0b-9de3-26315713df1e_BD-1976-688.jpg_2200x2200q80.jpg",
     },
   ];
+
   return (
     <div className="mt-2">
       {images.length > 1 ? (
         <Slider {...settings}>
           {images.map((item, index) => (
-            <Images className="object-cover w-full" src={item.image} alt={"Banner Image"} />
+            <Images
+              key={index}
+              className="object-cover w-full"
+              src={item.image}
+              alt={"Banner Image"}
+            />
           ))}
         </Slider>
       ) : (
