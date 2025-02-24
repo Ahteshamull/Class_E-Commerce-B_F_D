@@ -50,6 +50,10 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
+    postal: {
+      type: Number,
+      
+    },
   },
   {
     timestamps: true,

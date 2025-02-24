@@ -3,7 +3,7 @@ const orderModel = require("../model/orderModel");
 const userOrder = async (req, res) => {
   const {
     user,
-
+    postal,
     email,
     address,
     city,
@@ -25,14 +25,14 @@ const userOrder = async (req, res) => {
         name,
         totalPrice,
         cartItems,
-
+        postal,
         paymentMethod,
       });
       await Order.save();
       return res.status(201).send({
         success: true,
         error: false,
-        message: "New Order Get",
+        message: "Order Successfully",
         Order,
       });
     } else {
