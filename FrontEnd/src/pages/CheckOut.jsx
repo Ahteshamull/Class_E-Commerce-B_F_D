@@ -74,6 +74,7 @@ const CheckOut = () => {
     const productItem = products.map((item) => {
       return {
         productId: item.products._id,
+        quantity: item.quantity,
       };
     });
 
@@ -88,7 +89,7 @@ const CheckOut = () => {
         }
       );
       // Handle the success response (like navigating to a confirmation page)
-      console.log(response);
+      handleSuccess(response.data.message);
       // Navigate to confirmation page after success
     } catch (error) {
       handleError("Payment failed:", error);
