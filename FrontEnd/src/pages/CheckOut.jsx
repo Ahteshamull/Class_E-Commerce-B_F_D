@@ -89,8 +89,11 @@ const CheckOut = () => {
         }
       );
       // Handle the success response (like navigating to a confirmation page)
-      handleSuccess(response.data.message);
-      // Navigate to confirmation page after success
+      handleSuccess(response.data.message)
+      setTimeout(() => {
+        
+        navigate ("/welcome")
+      },2000)
     } catch (error) {
       handleError("Payment failed:", error);
       // Handle error (show message or retry)

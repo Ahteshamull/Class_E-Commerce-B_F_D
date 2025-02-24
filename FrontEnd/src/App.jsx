@@ -18,6 +18,7 @@ import ProductView from "./pages/ProductView";
 import ForgetPass from "./pages/ForgetPass";
 import CheckOut from "./pages/CheckOut";
 import UserProfile from "./pages/UserProfile";
+import Welcome from "./pages/Welcome";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
           <Route path="/shop/view/:id" element={<ProductView />}></Route>
           <Route path="/password" element={<ForgetPass />}></Route>
           <Route path="/checkout" element={<CheckOut />}></Route>
+          <Route path="/welcome" element={<Welcome />}></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>

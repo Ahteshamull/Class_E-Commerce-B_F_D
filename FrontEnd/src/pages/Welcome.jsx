@@ -1,16 +1,20 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
+import Container from "../layout/Container";
 
-export const DragCards = () => {
-  return (
-    <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-neutral-950">
-      <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
-        ASTRO<span className="text-indigo-500">.</span>
-      </h2>
-      <Cards />
-    </section>
-  );
+export const Welcome = () => {
+    return (
+      <Container>
+        <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-neutral-950">
+          <h2 className="relative z-0 text-[10vw] font-black text-neutral-800 md:text-[100px]">
+            অর্ডার করার জন্য ধন্যবাদ
+            <span className="text-indigo-500">.</span>
+          </h2>
+          <Cards />
+        </section>
+      </Container>
+    );
 };
 
 const Cards = () => {
@@ -97,26 +101,31 @@ const Card = ({ containerRef, src, alt, top, left, rotate, className }) => {
     setZIndex(maxZIndex + 1);
   };
 
-  return (
-    <motion.img
-      onMouseDown={updateZIndex}
-      style={{
-        top,
-        left,
-        rotate,
-        zIndex,
-      }}
-      className={twMerge(
-        "drag-elements absolute w-48 bg-neutral-200 p-1 pb-4",
-        className
-      )}
-      src={src}
-      alt={alt}
-      drag
-      dragConstraints={containerRef}
-      // Uncomment below and remove dragElastic to remove movement after release
-      //   dragMomentum={false}
-      dragElastic={0.65}
-    />
+    return (
+      <Container>
+            
+          <motion.img
+            onMouseDown={updateZIndex}
+            style={{
+              top,
+              left,
+              rotate,
+              zIndex,
+            }}
+            className={twMerge(
+              "drag-elements absolute w-48 bg-neutral-200 p-1 pb-4",
+              className
+            )}
+            src={src}
+            alt={alt}
+            drag
+            dragConstraints={containerRef}
+            // Uncomment below and remove dragElastic to remove movement after release
+            //   dragMomentum={false}
+            dragElastic={0.65}
+          />
+      </Container>
   );
 };
+
+export default Welcome;
