@@ -1,8 +1,52 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Container from "../layout/Container";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const CheckOut = () => {
+    const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+  const loginUserdata = useSelector((state) => state.user.value);
+    useEffect(() => {
+      if (!loginUserdata) {
+        navigate("/login");
+        return;
+      }
+      if (loginUserdata?.id) {
+        fetchProducts();
+      }
+    }, [loginUserdata?.id]);
+
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/cart/single-cart/${loginUserdata.id}`
+        );
+        setProducts(response.data.singleCart || []);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+ const { grandTotal } = useMemo(() => {
+     let subtotal = products.reduce(
+       (acc, product) => acc + product.products.discountPrice * product.quantity,
+       0
+     );
+ 
+     let totalDiscount = products.reduce(
+       (acc, product) =>
+         acc +
+         (product.products.sellingPrice - product.products.discountPrice) *
+           product.quantity,
+       0
+     );
+ 
+   
+     let grandTotal = subtotal 
+ 
+     return { subtotal, totalDiscount, grandTotal };
+   }, [products]);
   return (
     <div className="mt-10 mb-10">
       <Container>
@@ -16,134 +60,39 @@ const CheckOut = () => {
                       Order Summary
                     </h2>
                     <div className="space-y-6 mt-8">
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src="https://readymadeui.com/images/product10.webp"
-                            className="w-full object-contain"
-                          />
+                      {products?.map((item) => (
+                        <div className="flex gap-4">
+                          <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                            <img
+                              src={item.products.image[0]}
+                              className="w-full object-contain"
+                            />
+                          </div>
+                          <div className="w-full">
+                            <h3 className="text-sm text-gray-800 font-bold">
+                              Name:- {item.products.name}
+                            </h3>
+                            <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                              <li className="flex flex-wrap gap-4">
+                                Quantity{" "}
+                                <span className="ml-auto">{item.quantity}</span>
+                              </li>
+                              <li className="flex flex-wrap gap-4">
+                                Total Price{" "}
+                                <span className="ml-auto">
+                                  ${item.products.discountPrice}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            Naruto: Split Sneakers
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li className="flex flex-wrap gap-4">
-                              Size <span className="ml-auto">37</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Quantity <span className="ml-auto">2</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Total Price <span className="ml-auto">$40</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src="https://readymadeui.com/images/product11.webp"
-                            className="w-full object-contain"
-                          />
-                        </div>
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            VelvetGlide Boots
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li>
-                              Size <span className="float-right">37</span>
-                            </li>
-                            <li>
-                              Quantity <span className="float-right">2</span>
-                            </li>
-                            <li>
-                              Total Price{" "}
-                              <span className="float-right">$40</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src="https://readymadeui.com/images/product14.webp"
-                            className="w-full object-contain"
-                          />
-                        </div>
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            Echo Elegance
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li>
-                              Size <span className="float-right">37</span>
-                            </li>
-                            <li>
-                              Quantity <span className="float-right">2</span>
-                            </li>
-                            <li>
-                              Total Price{" "}
-                              <span className="float-right">$40</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src="https://readymadeui.com/images/product12.webp"
-                            className="w-full object-contain"
-                          />
-                        </div>
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            Naruto: Split Sneakers
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li className="flex flex-wrap gap-4">
-                              Size <span className="ml-auto">37</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Quantity <span className="ml-auto">2</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Total Price <span className="ml-auto">$40</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src="https://readymadeui.com/images/product9.webp"
-                            className="w-full object-contain"
-                          />
-                        </div>
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            VelvetGlide Boots
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li>
-                              Size <span className="float-right">37</span>
-                            </li>
-                            <li>
-                              Quantity <span className="float-right">2</span>
-                            </li>
-                            <li>
-                              Total Price{" "}
-                              <span className="float-right">$40</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                   <div className="lg:absolute lg:left-0 lg:bottom-0 bg-gray-200 w-full p-4">
                     <h4 className="flex flex-wrap gap-4 text-sm text-gray-800 font-bold">
-                      Total <span className="ml-auto">$240.00</span>
+                      Total{" "}
+                      <span className="ml-auto">${grandTotal.toFixed(2)}</span>
                     </h4>
                   </div>
                 </div>
@@ -205,7 +154,7 @@ const CheckOut = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-16">
+                  {/* <div className="mt-16">
                     <h2 className="text-xl font-bold text-gray-800">
                       Payment method
                     </h2>
@@ -324,8 +273,8 @@ const CheckOut = () => {
                         </label>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-wrap gap-4 mt-8">
+                  </div> */}
+                  <div className="flex gap-4 max-md:flex-col mt-8">
                     <Link to={"/card"}>
                       <button
                         type="button"
@@ -338,7 +287,7 @@ const CheckOut = () => {
                       type="button"
                       className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                     >
-                      Confirm payment $240
+                      Confirm payment ${grandTotal.toFixed(2)}
                     </button>
                   </div>
                 </form>

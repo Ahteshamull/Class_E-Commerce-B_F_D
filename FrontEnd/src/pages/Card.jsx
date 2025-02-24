@@ -1,16 +1,21 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Container from "../layout/Container";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { handleError, handleSuccess } from "../Toast";
 import { ToastContainer } from "react-toastify";
 
 const Card = () => {
+  const navigate = useNavigate()
   const [products, setProducts] = useState([]);
   const loginUserdata = useSelector((state) => state.user.value);
 
   useEffect(() => {
+    if (!loginUserdata) {
+      navigate("/login");
+      return;
+    }
     if (loginUserdata?.id) {
       fetchProducts();
     }

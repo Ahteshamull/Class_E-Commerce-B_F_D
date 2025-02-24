@@ -6,10 +6,18 @@ const orderSchema = new Schema(
       ref: "User",
     },
 
-    cartItems: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Cart",
-    },
+    cartItems: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
 
     totalPrice: {
       type: Number,
@@ -18,6 +26,14 @@ const orderSchema = new Schema(
       type: String,
       enum: ["paid", "unpaid"],
       default: "unpaid",
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["Cash On Delivery", "Online Payment"],
+    },
+    name: {
+      type: String,
+      required: true,
     },
     city: {
       type: String,
@@ -30,8 +46,9 @@ const orderSchema = new Schema(
     email: {
       type: String,
     },
-    number: {
-      type: number,
+    phone: {
+      type: Number,
+      required: true,
     },
   },
   {
