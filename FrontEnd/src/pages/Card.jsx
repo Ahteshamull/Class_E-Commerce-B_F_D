@@ -77,9 +77,8 @@ const Card = () => {
       0
     );
 
-    const shipping = 2.0;
-    const tax = 4.0;
-    let grandTotal = subtotal + shipping + tax;
+  
+    let grandTotal = subtotal 
 
     return { subtotal, totalDiscount, grandTotal };
   }, [products]);
@@ -171,12 +170,7 @@ const Card = () => {
                     -${totalDiscount.toFixed(2)}
                   </span>
                 </li>
-                <li className="flex flex-wrap gap-4 text-base">
-                  Shipping <span className="ml-auto font-bold">$2.00</span>
-                </li>
-                <li className="flex flex-wrap gap-4 text-base">
-                  Tax <span className="ml-auto font-bold">$4.00</span>
-                </li>
+               
                 <li className="flex flex-wrap gap-4 text-base font-bold">
                   Total{" "}
                   <span className="ml-auto">${grandTotal.toFixed(2)}</span>
