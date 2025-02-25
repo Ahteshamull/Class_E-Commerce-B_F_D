@@ -1,9 +1,12 @@
 import React from "react";
 import { Slider } from "@material-tailwind/react";
 import { useEffect } from "react";
+
 import { useState } from "react";
 import { handleError } from "../Toast";
 import axios from "axios";
+import SliderValueLabel from "./Range";
+
 
 const ShopSidebar = () => {
   const [category, setCategory] = useState([]);
@@ -73,14 +76,15 @@ const ShopSidebar = () => {
           Price Filter
         </h2>
         <div>
-          <label> value = {maxValue}</label>
+          <SliderValueLabel />
+          {/* <label> value = {maxValue}</label>
           <input
             onChange={handleFilter}
             min={0}
             max={5000}
             defaultValue={2000}
             type="range"
-          />
+          /> */}
         </div>
       </div>
     </>
