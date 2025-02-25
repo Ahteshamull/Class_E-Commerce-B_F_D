@@ -76,7 +76,9 @@ const ShopSidebar = () => {
           Price Filter
         </h2>
         <div>
-          <SliderValueLabel />
+          <SliderValueLabel
+       
+          />
           {/* <label> value = {maxValue}</label>
           <input
             onChange={handleFilter}

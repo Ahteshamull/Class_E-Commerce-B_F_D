@@ -3,23 +3,24 @@ import PropTypes from "prop-types";
 import { styled, alpha, Box } from "@mui/system";
 import { Slider as BaseSlider, sliderClasses } from "@mui/base/Slider";
 
-// Main Slider Component
-export default function SliderValueLabel() {
-  const [value, setValue] = React.useState(10); // State to track slider value
 
-  // Handler function for slider change
+export default function SliderValueLabel() {
+  const [value, setValue] = React.useState(); 
+
   const handleSliderChange = (event, newValue) => {
-    setValue(newValue); // Update the value when slider moves
+    setValue(newValue); 
   };
 
   return (
-    <Box sx={{ width: 300 }}>
+    <Box sx={{ maxwidth: 300 }}>
       <Slider
-        value={value} // Bind the value to state
-        onChange={handleSliderChange} // Handle slider change
-        defaultValue={10} // Initial value
-        slots={{ valueLabel: SliderValueLabelComponent }} // Use the custom label component
-        valueLabelDisplay="on" // Show the value label always
+        value={value} 
+        onChange={handleSliderChange} 
+        defaultValue={2000} 
+        slots={{ valueLabel: SliderValueLabelComponent }} 
+        valueLabelDisplay="on"
+        min={0}
+        max={5000}
       />
     </Box>
   );
@@ -34,12 +35,12 @@ function SliderValueLabelComponent({ children }) {
   );
 }
 
-// Prop types for the label component
+
 SliderValueLabelComponent.propTypes = {
-  children: PropTypes.node.isRequired, // Expected prop is a node (can be text, number, etc.)
+  children: PropTypes.node.isRequired,
 };
 
-// Blue color palette for styling
+
 const blue = {
   100: "#DAECFF",
   200: "#99CCF3",
@@ -51,7 +52,7 @@ const blue = {
   900: "#003A75",
 };
 
-// Grey color palette for styling
+
 const grey = {
   50: "#F3F6F9",
   100: "#E5EAF2",
@@ -65,7 +66,7 @@ const grey = {
   900: "#1C2025",
 };
 
-// Styled Slider component with MUI system
+
 const Slider = styled(BaseSlider)(
   () => `
   color: ${blue[500]}; // Set slider color based on the palette
