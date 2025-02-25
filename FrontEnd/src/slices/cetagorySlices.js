@@ -8,7 +8,7 @@ export const cetagorySlices = createSlice({
   },
   reducers: {
     cetagoryInfo: (state, action) => {
-      state.value = action.payload;
+      state.cetagory = action.payload;
     },
   },
 });
