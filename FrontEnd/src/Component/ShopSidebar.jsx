@@ -71,7 +71,7 @@ const ShopSidebar = () => {
         </ul>
       </div>
       {/* price filter// */}
-      <div className="shadow-sm rounded-md shadow-gray-400 p-3 mt-4">
+      <div className="shadow-sm rounded-md shadow-gray-500 p-3 mt-4">
         <h2 className="lg:text-2xl text-xl font-bold font-roboto text-primary mb-3">
           Price Filter
         </h2>
