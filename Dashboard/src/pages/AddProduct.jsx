@@ -151,7 +151,7 @@ const AddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-lg font-medium text-gray-700">
+          <label className="block text-lg font-medium text-gray-600">
             Product Image
           </label>
           <input
