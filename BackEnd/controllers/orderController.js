@@ -124,7 +124,7 @@ const paymentSuccess = async (req, res) => {
 };
 const paymentFailed = async (req, res) => {
   const { id } = req.params;
-  const deleteOrder = await orderModel.findOneAndDelete({ tran_id: id }).then(() => {
+   await orderModel.findOneAndDelete({ tran_id: id }).then(() => {
     res.redirect(`http://localhost:5173/payment/failed/${id}`);
     
   })
