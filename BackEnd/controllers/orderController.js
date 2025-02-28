@@ -44,8 +44,8 @@ const userOrder = async (req, res) => {
         total_amount: 100,
         currency: "BDT",
         tran_id: "REF123", // use unique tran_id for each api call
-        success_url: "http://localhost:3030/success",
-        fail_url: "http://localhost:3030/fail",
+        success_url: "http://localhost:3000/api/v1/order/payment/success",
+        fail_url: "http://localhost:3000/api/v1/order/payment/failed",
         cancel_url: "http://localhost:3030/cancel",
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
@@ -77,7 +77,7 @@ const userOrder = async (req, res) => {
         //  res.redirect(
         //    "https://sandbox.sslcommerz.com/EasyCheckOut/testcde4192ca58d422a038905eaab4e330b071"
         //  );
-      
+
         return res.status(200).send(GatewayPageURL);
       });
     }
@@ -90,4 +90,11 @@ const userOrder = async (req, res) => {
   }
 };
 
-module.exports = { userOrder };
+const paymentSuccess = async (req, res) => {
+  res.redirect("http://localhost:5173/payment/success");
+};
+const paymentFailed = async (req, res) => {
+  res.redirect("http://localhost:5173/payment/failed");
+};
+
+module.exports = { userOrder, paymentSuccess, paymentFailed };

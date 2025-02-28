@@ -19,11 +19,13 @@ import ForgetPass from "./pages/ForgetPass";
 import CheckOut from "./pages/CheckOut";
 import UserProfile from "./pages/UserProfile";
 import Welcome from "./pages/Welcome";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route>
-      <Route path="/" element={<Layout />}>
+      <Route>
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/user-profile" element={<UserProfile />}></Route>
@@ -36,6 +38,8 @@ const router = createBrowserRouter(
           <Route path="/checkout" element={<CheckOut />}></Route>
           <Route path="/welcome" element={<Welcome />}></Route>
         </Route>
+        <Route path="/payment/success" element={<PaymentSuccess />}></Route>
+        <Route path="/payment/failed" element={<PaymentFailed />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Route>
