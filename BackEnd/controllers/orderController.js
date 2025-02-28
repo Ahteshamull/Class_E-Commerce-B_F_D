@@ -110,7 +110,7 @@ const userOrder = async (req, res) => {
 
 const paymentSuccess = async (req, res) => {
   const { id } = req.params;
-  const OnlineOrderUpdate = await orderModel
+   await orderModel
     .findOneAndUpdate(
       { tran_id: id },
       {
