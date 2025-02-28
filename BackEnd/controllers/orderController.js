@@ -48,7 +48,7 @@ const userOrder = async (req, res) => {
         total_amount: 100,
         currency: "BDT",
         tran_id: Tran_id, // use unique tran_id for each api call
-        success_url: "http://localhost:3000/api/v1/order/payment/success",
+        success_url: `http://localhost:3000/api/v1/order/payment/success/${id}`,
         fail_url: "http://localhost:3000/api/v1/order/payment/failed",
         cancel_url: "http://localhost:3000/api/v1/order/payment/cancel",
         ipn_url: "http://localhost:3030/ipn",
@@ -76,6 +76,7 @@ const userOrder = async (req, res) => {
       };
       const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
       sslcz.init(data).then(async (apiResponse) => {
+        
         const Order = new orderModel({
           user,
           phone,
@@ -109,9 +110,9 @@ const userOrder = async (req, res) => {
 };
 
 const paymentSuccess = async (req, res) => {
-
-  console.log(req.body)
-  // res.redirect("http://localhost:5173/payment/success");
+  const {id} = req.params
+ 
+  res.redirect(`http://localhost:5173/payment/success/${id}`);
 };
 const paymentFailed = async (req, res) => {
   res.redirect("http://localhost:5173/payment/failed");
