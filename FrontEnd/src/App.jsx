@@ -21,6 +21,7 @@ import UserProfile from "./pages/UserProfile";
 import Welcome from "./pages/Welcome";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
+import PaymentCancel from "./pages/PaymentCancel";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
         <Route path="/payment/failed" element={<PaymentFailed />}></Route>
+        <Route path="/payment/cancel" element={<PaymentCancel />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Route>

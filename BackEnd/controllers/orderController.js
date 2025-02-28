@@ -46,7 +46,7 @@ const userOrder = async (req, res) => {
         tran_id: "REF123", // use unique tran_id for each api call
         success_url: "http://localhost:3000/api/v1/order/payment/success",
         fail_url: "http://localhost:3000/api/v1/order/payment/failed",
-        cancel_url: "http://localhost:3030/cancel",
+        cancel_url: "http://localhost:3000/api/v1/order/payment/cancel",
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
         product_name: "Computer.",
