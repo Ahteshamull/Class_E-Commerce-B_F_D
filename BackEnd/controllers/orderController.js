@@ -92,9 +92,7 @@ const userOrder = async (req, res) => {
         await Order.save();
 
         let GatewayPageURL = apiResponse.GatewayPageURL;
-        //  res.redirect(
-        //    "https://sandbox.sslcommerz.com/EasyCheckOut/testcde4192ca58d422a038905eaab4e330b071"
-        //  );
+       
 
         return res.status(200).send(GatewayPageURL);
       });
@@ -133,7 +131,7 @@ const paymentFailed = async (req, res) => {
 };
 const paymentCancel = async (req, res) => {
   const { id } = req.params;
-  const deleteOrder = await orderModel
+  await orderModel
     .findOneAndDelete({ tran_id: id })
     .then(() => {
       
