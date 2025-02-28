@@ -96,5 +96,8 @@ const paymentSuccess = async (req, res) => {
 const paymentFailed = async (req, res) => {
   res.redirect("http://localhost:5173/payment/failed");
 };
+const paymentCancel = async (req, res) => {
+  res.redirect("http://localhost:5173/payment/cancel");
+};
 
-module.exports = { userOrder, paymentSuccess, paymentFailed };
+module.exports = { userOrder, paymentSuccess, paymentFailed, paymentCancel };
