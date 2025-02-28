@@ -80,25 +80,25 @@ const CheckOut = () => {
     });
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/order/user-order",
-        {
+      const response = await axios
+        .post("http://localhost:3000/api/v1/order/user-order", {
           ...data,
           user: loginUserdata.id,
           cartItems: productItem,
           totalPrice: grandTotal.toFixed(2),
-        }
-      );
-      console.log(response)
-      // Handle the success response (like navigating to a confirmation page)
-      handleSuccess(response.data.message)
-      setTimeout(() => {
-        
-        navigate ("/welcome")
-      },2000)
+        })
+        .then((response) => {
+          window.location.href = response.data;
+        });
+
+      // handleSuccess(response.data.message)
+      // setTimeout(() => {
+
+      //   navigate ("/welcome")
+      // },2000)
     } catch (error) {
-      handleError("Payment failed:", error);
-      // Handle error (show message or retry)
+      handleError("Order Successfully" || error.message);
+   
     }
   };
 
