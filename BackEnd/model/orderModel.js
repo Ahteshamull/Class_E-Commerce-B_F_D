@@ -31,6 +31,9 @@ const orderSchema = new Schema(
       type: String,
       enum: ["Cash On Delivery", "Online Payment"],
     },
+    tran_id: {
+      type:Number
+    },
     name: {
       type: String,
       required: true,
