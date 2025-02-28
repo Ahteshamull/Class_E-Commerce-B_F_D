@@ -68,7 +68,7 @@ const CheckOut = () => {
       paymentMethod: e.target.value,
     }));
   };
-  console.log(payment);
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,19 +88,23 @@ const CheckOut = () => {
           totalPrice: grandTotal.toFixed(2),
         })
         .then((response) => {
-          window.location.href = response.data;
+          if (response.data.Order.paymentMethod == "Cash On Delivery") {
+            handleSuccess(response.data.message);
+            setTimeout(() => {
+              navigate("/welcome");
+            }, 2000);
+          } else if (paymentMethod == "Online Payment") {
+            
+            window.location.href = response.data;
+          }
         });
-
-      // handleSuccess(response.data.message)
-      // setTimeout(() => {
-
-      //   navigate ("/welcome")
-      // },2000)
     } catch (error) {
-      handleError("Order Successfully" || error.message);
-   
+    console.log(error)
+      handleError("Order Failed :" || error.message);
     }
   };
+
+
 
   return (
     <div className="mt-10 mb-10">

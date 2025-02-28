@@ -37,8 +37,8 @@ const router = createBrowserRouter(
           <Route path="/shop/view/:id" element={<ProductView />}></Route>
           <Route path="/password" element={<ForgetPass />}></Route>
           <Route path="/checkout" element={<CheckOut />}></Route>
-          <Route path="/welcome" element={<Welcome />}></Route>
         </Route>
+          <Route path="/welcome" element={<Welcome />}></Route>
         <Route path="/payment/success" element={<PaymentSuccess />}></Route>
         <Route path="/payment/failed" element={<PaymentFailed />}></Route>
         <Route path="/payment/cancel" element={<PaymentCancel />}></Route>
