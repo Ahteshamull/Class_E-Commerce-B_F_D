@@ -61,13 +61,14 @@ const CheckOut = () => {
     return { subtotal, totalDiscount, grandTotal };
   }, [products]);
 
-  const handlePayment = (event) => {
-    setPayment(event.target.value);
+  const handlePayment = (e) => {
+    setPayment(e.target.value);
     setData((prevData) => ({
       ...prevData,
-      paymentMethod: event.target.value,
+      paymentMethod: e.target.value,
     }));
   };
+  console.log(payment);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,6 +89,7 @@ const CheckOut = () => {
           totalPrice: grandTotal.toFixed(2),
         }
       );
+      console.log(response)
       // Handle the success response (like navigating to a confirmation page)
       handleSuccess(response.data.message)
       setTimeout(() => {
