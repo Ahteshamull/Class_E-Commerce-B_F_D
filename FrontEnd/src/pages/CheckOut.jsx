@@ -93,7 +93,7 @@ const CheckOut = () => {
           window.location.href = response.data;
         })
     } catch (error) {
-    console.log(error)
+    console.log(error.response)
       handleError("Order Failed :" || error.message);
     }
   };
