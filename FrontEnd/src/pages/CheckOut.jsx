@@ -88,16 +88,10 @@ const CheckOut = () => {
           totalPrice: grandTotal.toFixed(2),
         })
         .then((response) => {
-          if (response.data.Order.paymentMethod == "Cash On Delivery") {
-            handleSuccess(response.data.message);
-            setTimeout(() => {
-              navigate("/welcome");
-            }, 2000);
-          } else if (paymentMethod == "Online Payment") {
+         
             
-            window.location.href = response.data;
-          }
-        });
+          window.location.href = response.data;
+        })
     } catch (error) {
     console.log(error)
       handleError("Order Failed :" || error.message);
