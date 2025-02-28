@@ -40,8 +40,8 @@ const router = createBrowserRouter(
         </Route>
           <Route path="/welcome" element={<Welcome />}></Route>
         <Route path="/payment/success/:id" element={<PaymentSuccess />}></Route>
-        <Route path="/payment/failed" element={<PaymentFailed />}></Route>
-        <Route path="/payment/cancel" element={<PaymentCancel />}></Route>
+        <Route path="/payment/failed/:id" element={<PaymentFailed />}></Route>
+        <Route path="/payment/cancel/:id" element={<PaymentCancel />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Route>

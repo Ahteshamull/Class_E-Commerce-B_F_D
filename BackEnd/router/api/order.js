@@ -12,8 +12,8 @@ router.post("/user-order", userOrder);
 //localhost:3000/api/v1/order/payment/success
 router.post("/payment/success/:id", paymentSuccess);
 //localhost:3000/api/v1/order/payment/failed
-router.post("/payment/failed", paymentFailed);
+router.post("/payment/failed/:id", paymentFailed);
 //localhost:3000/api/v1/order/payment/cancel
-router.post("/payment/cancel", paymentCancel);
+router.post("/payment/cancel/:id", paymentCancel);
 
 module.exports = router;

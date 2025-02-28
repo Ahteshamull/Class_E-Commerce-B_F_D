@@ -45,12 +45,12 @@ const userOrder = async (req, res) => {
       ).toString();
 
       const data = {
-        total_amount: 100,
+        total_amount: totalPrice,
         currency: "BDT",
         tran_id: Tran_id, // use unique tran_id for each api call
         success_url: `http://localhost:3000/api/v1/order/payment/success/${Tran_id}`,
-        fail_url: "http://localhost:3000/api/v1/order/payment/failed",
-        cancel_url: "http://localhost:3000/api/v1/order/payment/cancel",
+        fail_url: `http://localhost:3000/api/v1/order/payment/failed/${Tran_id}`,
+        cancel_url: `http://localhost:3000/api/v1/order/payment/cancel/${Tran_id}`,
         ipn_url: "http://localhost:3030/ipn",
         shipping_method: "Courier",
         product_name: "Computer.",
@@ -125,10 +125,20 @@ const paymentSuccess = async (req, res) => {
     });
 };
 const paymentFailed = async (req, res) => {
-  res.redirect("http://localhost:5173/payment/failed");
+  const { id } = req.params;
+  const deleteOrder = await orderModel.findOneAndDelete({ tran_id: id }).then(() => {
+    res.redirect(`http://localhost:5173/payment/failed/${id}`);
+    
+  })
 };
 const paymentCancel = async (req, res) => {
-  res.redirect("http://localhost:5173/payment/cancel");
+  const { id } = req.params;
+  const deleteOrder = await orderModel
+    .findOneAndDelete({ tran_id: id })
+    .then(() => {
+      
+      res.redirect(`http://localhost:5173/payment/cancel/${id}`);
+    });
 };
 
 module.exports = { userOrder, paymentSuccess, paymentFailed, paymentCancel };
