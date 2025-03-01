@@ -5,7 +5,7 @@ const AllItem = ({ productItem }) => {
   const navigate = useNavigate()
   const handleProductId = (item) => {
     navigate(`/shop/view/${item}`);
-    console.log(item)
+  
   }
   return (
 
