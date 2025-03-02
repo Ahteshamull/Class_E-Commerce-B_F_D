@@ -72,7 +72,7 @@ const AddProduct = () => {
          withCredentials: true,
        },
      );
-
+  console.log(response)
      const { success, message } = response.data;
      if (success) {
        handleSuccess(message);
@@ -108,6 +108,7 @@ const AddProduct = () => {
         );
         const data = await response.data;
         setAllStore(data.allStore);
+      
       } catch (error) {
         console.error("Error fetching cetagory:", error);
       }
