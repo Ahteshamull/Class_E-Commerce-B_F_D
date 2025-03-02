@@ -46,17 +46,11 @@ export default function CategoryProduct() {
       <Container>
         <section className="ezy__epgrid2 light py-5 text-zinc-900 dark:text-white relative overflow-hidden z-10">
           <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
-            {category.name} 
+            {category.name}
           </h2>
 
-          <div className="text-center">
-            <div className="ezy__epgrid2-button">
-              <CategoryPageNation
-                itemsPerPage={119}
-                Cetagory={category}
-              />
-            
-            </div>
+          <div className="text-center flex gap-10 justify-between items-center ">
+            <CategoryPageNation itemsPerPage={4} category={category.products} />
           </div>
         </section>
       </Container>

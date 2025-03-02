@@ -1,48 +1,37 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router";
 
 export default function CategoryProducts({ productItem }) {
-  
- 
-
   const navigate = useNavigate();
   const handleProductId = (item) => {
     navigate(`/shop/view/${item}`);
   };
   return (
-    <div>
-      {category.map((item) => (
-        <div
-          onClick={() => handleProductId(item._id)}
-          className="antialiased cursor-pointer flex items-center justify-between text-gray-900"
-        >
-          <div className=" p-8 flex items-center justify-center">
-            <div className=" rounded-lg overflow-hidden shadow-2xl xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/2">
-              {/* Image Section */}
-              <img
-                className="h-48 w-full object-cover object-end"
-                src={item.image[0]}
-                alt="Home in Countryside"
-              />
-              <div className="p-6">
-                <h4 className="mt-2 font-semibold text-lg leading-tight truncate">
-                  {item.name}
-                </h4>
-                <p className="mt-2 font-normal text-sm ">{item.description}</p>
-
-                {/* Price */}
-                <div className="mt-1 flex items-center gap-5">
-                  <span>BDT: {item.discountPrice}</span>
-                  <span className="text-gray-600 text-sm line-through">
-                    {item.sellingPrice}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div
+      onClick={() => handleProductId(productItem._id)}
+      className="bg-white  rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative"
+    >
+      <div className="mb-4  bg-gray-100 rounded-xl p-2">
+        <img
+          src={productItem.image[0]}
+          alt="Product 1"
+          className="w-full  rounded-xl object-contain"
+        />
+      </div>
+      <div>
+        <div className="flex gap-2">
+          <h5 className="text-base font-bold text-gray-800">
+            {productItem.name}
+          </h5>
+          <h6 className="text-base text-gray-800 font-bold ml-auto">
+            {productItem.sellingPrice}$
+          </h6>
         </div>
-      ))}
+        <p className="text-gray-500 text-[13px] mt-2">
+          {productItem.description}
+        </p>
+      </div>
     </div>
   );
 }

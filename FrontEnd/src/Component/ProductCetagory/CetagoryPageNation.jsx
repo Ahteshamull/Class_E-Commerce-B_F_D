@@ -4,12 +4,11 @@ import ReactPaginate from "react-paginate";
 
 import CategoryProduct from '../ProductCetagory/CategoryProducts';
 
-// Example items, to simulate fetching from another resources.
-
-function CategoryPageNation({ itemsPerPage,Cetagory  }) {
-  const items = Cetagory;
 
 
+function CategoryPageNation({ itemsPerPage, category }) {
+  const items = category;
+console.log(items);
   function Items({ currentItems }) {
     return (
       <>
