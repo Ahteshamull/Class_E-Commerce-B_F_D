@@ -22,12 +22,14 @@ import Welcome from "./pages/Welcome";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import PaymentCancel from "./pages/PaymentCancel";
+import CetagoryProduct from "./Component/ProductCetagory/CategoryProducts";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}></Route>
+          <Route path="/single/category" element={<CetagoryProduct />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/user-profile" element={<UserProfile />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
