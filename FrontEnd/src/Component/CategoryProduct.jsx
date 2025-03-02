@@ -5,33 +5,57 @@ import CategoryPageNation from "../Component/ProductCetagory/CetagoryPageNation"
 import axios from "axios";
 
 export default function CategoryProduct() {
-  const [cetagory ,setCetagory] = useState([])
+  const [category, setCategory] = useState(null); // Initialize state as null
+  const [loading, setLoading] = useState(true); // To track loading state
+  const [error, setError] = useState(null); // To store error messages
   const { id } = useParams();
-  const SingleCetagory = async () => {
-    await axios.get(`http://localhost:3000/api/v1/category/singleCetagory/${id}`)
-      .then((response) => {
-        setCetagory(response.data.singleCetagory);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+  const fetchCategory = async () => {
+    try {
+      setLoading(true); // Start loading
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/category/singleCetagory/${id}`
+      );
+      setCategory(response.data.singleCetagory); // Assuming your API returns this object
+    } catch (error) {
+      setError("Failed to load category data"); // Handle error
+      console.error(error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   useEffect(() => {
-    SingleCetagory();
-  }, [id]);
+    fetchCategory();
+  }, [id]); // Re-fetch data when id changes
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading message while fetching data
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Show error message if there's an issue with the fetch
+  }
+
+  if (!category) {
+    return <div>No category found</div>; // Handle case where no category is found
+  }
 
   return (
     <div>
       <Container>
-        <section className="ezy__epgrid2 light py-5  text-zinc-900 dark:text-white relative overflow-hidden z-10">
+        <section className="ezy__epgrid2 light py-5 text-zinc-900 dark:text-white relative overflow-hidden z-10">
           <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
-            {cetagory.name}
+            {category.name} {/* Assuming category has a name property */}
           </h2>
 
-          <div className="text-center ">
-            <div className="ezy__epgrid2-button ">
-              <CategoryPageNation itemsPerPage={1} />
+          <div className="text-center">
+            <div className="ezy__epgrid2-button">
+              <CategoryPageNation
+                itemsPerPage={1}
+                Cetagory={category.products}
+              />
+              {/* Assuming `category.products` is an array of products */}
             </div>
           </div>
         </section>

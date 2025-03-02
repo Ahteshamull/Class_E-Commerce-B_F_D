@@ -1,90 +1,42 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faStar } from "@fortawesome/free-solid-svg-icons";
-import PropTypes from "prop-types";
-import Container from "../../layout/Container";
 
-const products = [
-  {
-    img: "https://cdn.easyfrontend.com/pictures/ecommerce/ep-grid2_1.jpg",
-    title: "Autumn Cotton Linen Dress Women Loose Plus Size",
-    price: "725.00",
-    rating: "4.6",
-  },
-  {
-    img: "https://cdn.easyfrontend.com/pictures/ecommerce/ep-grid2_2.jpg",
-    title: "2022 Smart Watch Ultra Men Women Smartwatch",
-    price: "172.00",
-    rating: "4.9",
-  },
-  {
-    img: "https://cdn.easyfrontend.com/pictures/ecommerce/ep-grid2_3.jpg",
-    title: "ROSEGAL Gothic Dresses Black High Waist",
-    price: "1199.00",
-    rating: "4.2",
-  },
-  {
-    img: "https://cdn.easyfrontend.com/pictures/ecommerce/ep-grid2_4.jpg",
-    title: "Best YBT Women Belt Imitation Leather Pin Buckle Belt New",
-    price: "89.00",
-    rating: "4.6",
-  },
-];
-
-const ProductItem = ({ product }) => {
+const CategoryProducts = ({ productItem }) => {
   return (
-   
-    <div className="p-2">
-      <div>
-        <img src={product.img} alt="..." className="w-full" />
-      </div>
-      <div className="py-4 lg:py-6 text-start px-1">
-        <h5 className="font-medium cursor-pointer">{product.title}</h5>
-        <h5 className="font-medium text-blue-600 my-2">${product.price}</h5>
-        <div className="flex justify-between items-center px-1">
-          <h5 className="font-medium">
-            <span className="text-yellow-500 mr-1">
-              <FontAwesomeIcon icon={faStar} />
-            </span>
-            {product.rating}
-          </h5>
-          <a href="#!">
-            <h5 className="font-medium hover:text-blue-600">
-              <FontAwesomeIcon icon={faShoppingCart} />
-            </h5>
-          </a>
+    <div>
+      <div className="font-[sans-serif] p-4 mx-auto lg:max-w-5xl sm:max-w-2xl max-w-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Iterate through the productItem array */}
+          {productItem.map((product) => (
+            <div
+              className="bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 relative"
+              key={product.id}
+            >
+              <div className="w-full p-4">
+                <img
+                  src={product.image[0]} // Assuming product.image is an array of images
+                  alt={product.title} // Use dynamic title for alt
+                  className="aspect-[8/6] w-full object-contain"
+                />
+              </div>
+              <div className="p-6">
+                <hr className="border mb-6" />
+                <div>
+                  {/* Display dynamic product title */}
+                  <h4 className="text-sm text-gray-800 leading-relaxed">
+                    {product.title}
+                  </h4>
+                  {/* Display dynamic product price */}
+                  <h4 className="text-base text-gray-800 font-bold mt-4">
+                    ${product.price}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-ProductItem.propTypes = {
-  product: PropTypes.object.isRequired,
-};
-
-const CetagoryProduct = () => {
-  return (
-    <Container>
-
-    <section className="ezy__epgrid2 light mt-5  text-zinc-900 dark:text-white relative overflow-hidden z-10">
-    
-      
-
-        <div className="grid grid-cols-12 text-center ">
-          {products.map((product, i) => (
-            <div
-              className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
-              key={i}
-            >
-              <ProductItem product={product} />
-            </div>
-          ))}
-        </div>
-
-    
-    </section>
-    </Container>
-  );
-};
-export default CetagoryProduct;
+export default CategoryProducts;

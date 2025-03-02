@@ -6,8 +6,9 @@ import CategoryProduct from '../ProductCetagory/CategoryProducts';
 
 // Example items, to simulate fetching from another resources.
 
-function CategoryPageNation({ itemsPerPage,  }) {
-  const items =[ 1,2,3,4];
+function CategoryPageNation({ itemsPerPage,Cetagory  }) {
+  const items = Cetagory;
+  console.log(items)
 
   function Items({ currentItems }) {
     return (
