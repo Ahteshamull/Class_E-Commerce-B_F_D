@@ -135,7 +135,7 @@ const updateCetagory = async (req, res) => {
 const singleCetagory = async (req, res) => {
   const { id } = req.params;
   try {
-    const singleCetagory = await cetagoryModel.findOne({ _id: id });
+    const singleCetagory = await cetagoryModel.findOne({ _id: id }).populate("products")
     return res.status(200).send({
       success: true,
       error: false,
