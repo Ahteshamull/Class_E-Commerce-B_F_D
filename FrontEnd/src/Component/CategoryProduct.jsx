@@ -46,7 +46,7 @@ export default function CategoryProduct() {
       <Container>
         <section className="ezy__epgrid2 light py-5 text-zinc-900 dark:text-white relative overflow-hidden z-10">
           <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
-            {category.name} {/* Assuming category has a name property */}
+            {category.name} 
           </h2>
 
           <div className="text-center">
@@ -55,7 +55,7 @@ export default function CategoryProduct() {
                 itemsPerPage={1}
                 Cetagory={category.products}
               />
-              {/* Assuming `category.products` is an array of products */}
+            
             </div>
           </div>
         </section>

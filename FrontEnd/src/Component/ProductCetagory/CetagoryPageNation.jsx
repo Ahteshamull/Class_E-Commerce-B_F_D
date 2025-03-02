@@ -8,7 +8,7 @@ import CategoryProduct from '../ProductCetagory/CategoryProducts';
 
 function CategoryPageNation({ itemsPerPage,Cetagory  }) {
   const items = Cetagory;
-  console.log(items)
+
 
   function Items({ currentItems }) {
     return (

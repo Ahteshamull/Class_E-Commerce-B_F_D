@@ -1,42 +1,43 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
-const CategoryProducts = ({ productItem }) => {
+
+export default function CategoryProducts({ productItem }) {
+  const navigate = useNavigate();
+  const handleProductId = (item) => {
+    navigate(`/shop/view/${item}`);
+  };
   return (
-    <div>
-      <div className="font-[sans-serif] p-4 mx-auto lg:max-w-5xl sm:max-w-2xl max-w-md">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Iterate through the productItem array */}
-          {productItem.map((product) => (
-            <div
-              className="bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 relative"
-              key={product.id}
-            >
-              <div className="w-full p-4">
-                <img
-                  src={product.image[0]} // Assuming product.image is an array of images
-                  alt={product.title} // Use dynamic title for alt
-                  className="aspect-[8/6] w-full object-contain"
-                />
-              </div>
-              <div className="p-6">
-                <hr className="border mb-6" />
-                <div>
-                  {/* Display dynamic product title */}
-                  <h4 className="text-sm text-gray-800 leading-relaxed">
-                    {product.title}
-                  </h4>
-                  {/* Display dynamic product price */}
-                  <h4 className="text-base text-gray-800 font-bold mt-4">
-                    ${product.price}
-                  </h4>
-                </div>
-              </div>
+    <div
+      onClick={() => handleProductId(productItem._id)}
+      className="antialiased cursor-pointer text-gray-900"
+    >
+      <div className=" p-8 flex items-center justify-center">
+        <div className=" rounded-lg overflow-hidden shadow-2xl xl:w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/2">
+          {/* Image Section */}
+          <img
+            className="h-48 w-full object-cover object-end"
+            src={productItem.image[0]}
+            alt="Home in Countryside"
+          />
+          <div className="p-6">
+            <h4 className="mt-2 font-semibold text-lg leading-tight truncate">
+              {productItem.name}
+            </h4>
+            <p className="mt-2 font-normal text-sm ">
+              {productItem.description}
+            </p>
+
+            {/* Price */}
+            <div className="mt-1 flex items-center gap-5">
+              <span>BDT: {productItem.discountPrice}</span>
+              <span className="text-gray-600 text-sm line-through">
+                {productItem.sellingPrice}
+              </span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default CategoryProducts;
+}
