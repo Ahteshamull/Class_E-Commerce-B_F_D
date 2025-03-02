@@ -22,7 +22,7 @@ import Welcome from "./pages/Welcome";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import PaymentCancel from "./pages/PaymentCancel";
-import CetagoryProduct from "./Component/ProductCetagory/CategoryProducts";
+import CetagoryProduct from "./Component/CategoryProduct";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>

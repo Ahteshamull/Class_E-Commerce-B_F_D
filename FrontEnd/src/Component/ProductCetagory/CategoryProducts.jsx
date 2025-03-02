@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faStar } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import Container from "../../layout/Container";
 
 const products = [
   {
@@ -64,13 +65,13 @@ ProductItem.propTypes = {
 
 const CetagoryProduct = () => {
   return (
-    <section className="ezy__epgrid2 light py-14 md:py-24 bg-white dark:bg-[#0b1727] text-zinc-900 dark:text-white relative overflow-hidden z-10">
-      <div className="container px-4 mx-auto">
-        <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
-          Product Category
-        </h2>
+    <Container>
 
-        <div className="grid grid-cols-12 text-center mt-12">
+    <section className="ezy__epgrid2 light mt-5  text-zinc-900 dark:text-white relative overflow-hidden z-10">
+    
+      
+
+        <div className="grid grid-cols-12 text-center ">
           {products.map((product, i) => (
             <div
               className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
@@ -80,15 +81,10 @@ const CetagoryProduct = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="text-center mt-12">
-        <div className="ezy__epgrid2-button mt-5">
-          <button className="text-white font-bold py-3 px-11 bg-blue-600 hover:bg-opacity-90 rounded">
-            See All
-          </button>
-        </div>
-      </div>
+
+    
     </section>
+    </Container>
   );
 };
 export default CetagoryProduct;
