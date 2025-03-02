@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { handleError } from "../Toast";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Shirt = () => {
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const allCetagory = async () => {
     setLoading(true);
@@ -26,6 +27,12 @@ const Shirt = () => {
   useEffect(() => {
     allCetagory();
   }, []);
+
+
+
+  const handleCetagoryProduct = (product) => {
+   navigate(`/single/category/${product}`);
+  }
   const LoadingState = () => {
     return (
       <>
@@ -60,7 +67,7 @@ const Shirt = () => {
               <LoadingState />
             ) : (
               category.map((item) => (
-                <div
+                <div onClick={()=>handleCetagoryProduct(item._id)}
                   key={item.id} // Make sure to add a unique key
                   className="bg-white p-3 cursor-pointer shadow-sm rounded-md hover:scale-[1.03] transition-all"
                 >
