@@ -52,8 +52,8 @@ export default function CategoryProduct() {
           <div className="text-center">
             <div className="ezy__epgrid2-button">
               <CategoryPageNation
-                itemsPerPage={1}
-                Cetagory={category.products}
+                itemsPerPage={119}
+                Cetagory={category}
               />
             
             </div>
