@@ -50,7 +50,7 @@ export default function CategoryProduct() {
           </h2>
 
           
-            <CategoryPageNation itemsPerPage={4} category={category.products} />
+            <CategoryPageNation itemsPerPage={10} category={category.products} />
          
         </section>
      

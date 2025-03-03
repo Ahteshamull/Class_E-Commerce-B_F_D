@@ -13,11 +13,11 @@ console.log(items);
     return (
       <>
         {currentItems &&
-          currentItems.map((item) => (
+         
             <div>
-              <CategoryProduct productItem={item} />
+              <CategoryProduct  />
             </div>
-          ))}
+          }
       </>
     );
   }
