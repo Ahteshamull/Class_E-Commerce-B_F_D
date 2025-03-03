@@ -43,17 +43,13 @@ export default function CategoryProduct() {
 
   return (
     <div>
-      
-        <section>
-          <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
-            {category.name}
-          </h2>
+      <section>
+        <h2 className="text-2xl font-bold leading-none md:text-[40px] text-center">
+          {category.name}
+        </h2>
 
-          
-            <CategoryPageNation itemsPerPage={10} category={category.products} />
-         
-        </section>
-     
+        <CategoryPageNation itemsPerPage={1} category={category.products} />
+      </section>
     </div>
   );
 }
