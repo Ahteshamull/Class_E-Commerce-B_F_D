@@ -29,46 +29,49 @@ const AddProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to Array
+    const files = Array.from(e.target.files); 
 
     setFormData((prevState) => ({
       ...prevState,
-      image: files, // Store all selected images
+      image: files,
     }));
   };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-
   const token = Cookie.get("token");
-  const dataToSubmit = new FormData(); // Use FormData to handle file uploads
 
-  dataToSubmit.append("name", formData.name);
-  dataToSubmit.append("description", formData.description);
-  dataToSubmit.append("sellingPrice", formData.sellingPrice);
-  dataToSubmit.append("discountPrice", formData.discountPrice);
-  dataToSubmit.append("category", formData.category);
-  dataToSubmit.append("store", formData.store);
-  dataToSubmit.append("stock", formData.stock);
+  const data = new FormData();
 
-  // Append multiple images
+
+
+  data.append("name", formData.name);
+  data.append("description", formData.description);
+  data.append("sellingPrice", formData.sellingPrice);
+  data.append("discountPrice", formData.discountPrice);
+  data.append("category", formData.category);
+  data.append("store", formData.store);
+  data.append("stock", formData.stock);
+
+ 
   formData.image.forEach((file) => {
-    dataToSubmit.append("image", file); // "image" should match the backend field
+    data.append("image", file); 
   });
+
+
 
   try {
     const response = await axios.post(
       "http://localhost:3000/api/v1/product/createProduct",
-      dataToSubmit,
-      
+      data, 
       {
         headers: {
           "Content-Type": "multipart/form-data",
           Cookie: `token=${token}`,
         },
         withCredentials: true,
-      }
+      },
     );
 
     console.log(response);
@@ -83,6 +86,7 @@ const handleSubmit = async (e) => {
     handleError(error.response.data.message);
   }
 };
+
 
 
   useEffect(() => {
@@ -171,12 +175,13 @@ const handleSubmit = async (e) => {
           <select
             name="category"
             value={formData.category}
-            onChange={handleChange} // Fix the onChange handler
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })} 
+            required
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             <option value="">Select a category</option> {/* Default option */}
-            {allCategories?.map((category) => (
-              <option key={category._id} value={category._id}>
+            {allCategories?.map((category,i) => (
+              <option key={i} value={category._id}>
                 {category.name}
               </option>
             ))}
