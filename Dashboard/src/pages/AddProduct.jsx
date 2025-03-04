@@ -270,13 +270,13 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: [], // Initialize as an empty array for files
+    image: [],
     sellingPrice: "",
     discountPrice: "",
     store: "",
     stock: "",
+    category: "", 
   });
-  const [category, setCategory] = useState(""); // Initialize as an empty string
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -310,7 +310,7 @@ const AddProduct = () => {
     data.append("discountPrice", formData.discountPrice);
     data.append("store", formData.store);
     data.append("stock", formData.stock);
-    data.append("category", category);
+    data.append("category", formData.category); // Use formData.category
 
     formData.image.forEach((file) => {
       data.append("image", file);
@@ -368,7 +368,7 @@ const AddProduct = () => {
     };
     getAllStores();
   }, []);
-
+console.log(formData)
   return (
     <div className="mx-auto w-full overflow-hidden rounded-xl bg-white p-8 shadow-2xl">
       <h2 className="mb-6 text-center text-3xl font-semibold text-gray-800">
@@ -421,8 +421,8 @@ const AddProduct = () => {
           </label>
           <select
             name="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={formData.category} // Use formData.category
+            onChange={handleChange} // Use handleChange for consistency
             required
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
