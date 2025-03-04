@@ -106,7 +106,7 @@ const Card = () => {
                     <div className="col-span-2 flex items-center gap-4">
                       <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
                         <img
-                          src={product.products.image[0]}
+                          src={product?.products.image[0]}
                           className="w-full h-full object-contain"
                           alt={product.products.name}
                         />
@@ -149,7 +149,7 @@ const Card = () => {
                     </div>
                     <div className="ml-auto">
                       <h4 className="text-base font-bold text-gray-800">
-                        ${product.products.discountPrice}
+                        ${product?.products.discountPrice}
                       </h4>
                       <h6 className="text-xs text-gray-600 line-through">
                         ${product.products.sellingPrice}
