@@ -149,7 +149,7 @@ export default function CategoryProduct() {
                 </div>
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <h3 className="text-lg font-semibold">Tk {product?.discountPrice}</h3>
+                  <h3 className="text-lg font-semibold">Tk {product.discountPrice}</h3>
                 </div>
                 <p className="text-gray-600">{product.description}</p>
               </div>
