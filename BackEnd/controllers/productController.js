@@ -35,7 +35,7 @@ const productController = async (req, res) => {
     await cetagoryModel.findOneAndUpdate(
       { _id: cetagory },
       { $push: { products: createProduct._id } },
-      { new: true }
+     
     );
     await storeModel.findOneAndUpdate(
       { _id: store },

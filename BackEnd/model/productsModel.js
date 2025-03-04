@@ -27,7 +27,7 @@ const productsSchema = new Schema(
     },
     isFeature: {
       type: Boolean,
-      default:false
+      default: false,
     },
     sellingPrice: {
       type: Number,
