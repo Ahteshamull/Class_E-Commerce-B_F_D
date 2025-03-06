@@ -124,7 +124,7 @@ const Card = () => {
                         <div className="flex gap-4 mt-4">
                           <button
                             type="button"
-                            className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                            className="flex items-center px-2 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
                           >
                             <svg
                               onClick={() => handleProductDecrement(product)}
