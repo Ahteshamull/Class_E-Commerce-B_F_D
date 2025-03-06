@@ -49,7 +49,9 @@ const Card = () => {
       try {
         await axios.patch(
           `http://localhost:3000/api/v1/cart/decrementCart/${product._id}`
-        );
+        ).then((response) => { 
+          console.log(response);
+        })
         fetchProducts();
       } catch (error) {
         console.error(error);
