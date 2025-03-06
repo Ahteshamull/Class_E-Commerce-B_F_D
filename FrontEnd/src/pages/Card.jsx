@@ -87,7 +87,7 @@ const Card = () => {
 
     return { subtotal, totalDiscount, grandTotal };
   }, [products]);
-
+console.log(grandTotal)
   return (
     <div>
       <Container>
