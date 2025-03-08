@@ -197,8 +197,13 @@ const singleProduct = async (req, res) => {
 };
 
 const featureProduct = async (req, res) => {
+  const { id } = req.params;
   try {
-    const featureProducts = await productsModel.find({ isFeature: true });
+    const featureProducts = await productsModel.findOneAndUpdate(
+      { _id: id },
+      { isFeature: true },
+      { new: true }
+    );
     return res.status(200).send({
       success: true,
       message: "Feature Product Here",

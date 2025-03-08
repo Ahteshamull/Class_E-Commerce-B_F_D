@@ -72,15 +72,15 @@ const Card = () => {
 
   const { subtotal, totalDiscount, grandTotal } = useMemo(() => {
     let subtotal = products.reduce(
-      (acc, product) => acc + product.products.discountPrice * product.quantity,
+      (acc, product) => acc + product?.products?.discountPrice * product?.quantity,
       0
     );
 
     let totalDiscount = products.reduce(
       (acc, product) =>
         acc +
-        (product.products.sellingPrice - product.products.discountPrice) *
-          product.quantity,
+        (product?.products?.sellingPrice - product?.products?.discountPrice) *
+          product?.quantity,
       0
     );
 
@@ -108,14 +108,14 @@ console.log(grandTotal)
                     <div className="col-span-2 flex items-center gap-4">
                       <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
                         <img
-                          src={product?.products.image[0]}
+                          src={product?.products?.image[0]}
                           className="w-full h-full object-contain"
-                          alt={product.products.name}
+                          alt={product?.products?.name}
                         />
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-gray-800">
-                          {product.products.name}
+                          {product?.products?.name}
                         </h3>
                         <h6
                           onClick={() => handleRemoveCart(product)}
@@ -136,7 +136,7 @@ console.log(grandTotal)
                             >
                               <path d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z" />
                             </svg>
-                            <span className="mx-2.5">{product.quantity}</span>
+                            <span className="mx-2.5">{product?.quantity}</span>
                             <svg
                               onClick={() => handleProductIncrement(product)}
                               xmlns="http://www.w3.org/2000/svg"
@@ -151,10 +151,10 @@ console.log(grandTotal)
                     </div>
                     <div className="ml-auto">
                       <h4 className="text-base font-bold text-gray-800">
-                        ${product?.products.discountPrice}
+                        ${product?.products?.discountPrice}
                       </h4>
                       <h6 className="text-xs text-gray-500 line-through">
-                        ${product.products.sellingPrice}
+                        ${product?.products?.sellingPrice}
                       </h6>
                     </div>
                   </div>

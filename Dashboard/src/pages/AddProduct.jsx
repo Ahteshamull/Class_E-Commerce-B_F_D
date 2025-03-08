@@ -275,7 +275,7 @@ const AddProduct = () => {
     discountPrice: "",
     store: "",
     stock: "",
-    category: "", 
+    cetagory: "", 
   });
 
   const handleChange = (e) => {
@@ -285,7 +285,7 @@ const AddProduct = () => {
       [name]: value,
     });
   };
-
+console.log(formData.category)
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setFormData((prevState) => ({
@@ -310,7 +310,7 @@ const AddProduct = () => {
     data.append("discountPrice", formData.discountPrice);
     data.append("store", formData.store);
     data.append("stock", formData.stock);
-    data.append("category", formData.category); // Use formData.category
+    data.append("cetagory", formData.cetagory); 
 
     formData.image.forEach((file) => {
       data.append("image", file);
@@ -420,15 +420,15 @@ console.log(formData)
             Category
           </label>
           <select
-            name="category"
-            value={formData.category} // Use formData.category
-            onChange={handleChange} // Use handleChange for consistency
+            name="cetagory"
+            value={formData.cetagory} 
+            onChange={(e)=>setFormData({...formData,cetagory:e.target.value})} 
             required
             className="mt-2 block w-full rounded-lg border border-gray-300 px-5 py-3 shadow-sm transition duration-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             <option value="">Select a category</option>
             {allCategories?.map((category, i) => (
-              <option key={i} value={category._id}>
+              <option key={category._id} value={category._id}>
                 {category.name}
               </option>
             ))}
