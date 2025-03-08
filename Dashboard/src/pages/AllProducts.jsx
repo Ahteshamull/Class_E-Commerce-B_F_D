@@ -18,6 +18,8 @@ import {
 import axios from "axios";
 import Cookie from "js-cookie";
 import { handleError, handleSuccess } from "../Util";
+import { ToastContainer } from 'react-toastify';
+
 
 const TABLE_HEAD = [
   "Image",
@@ -147,7 +149,7 @@ export function AllProducts() {
     const token = Cookie.get("token");
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/product/featureProduct/id/${id}`,
+        `http://localhost:3000/api/v1/product/featureProduct/${id}`,
         {},
         {
           headers: {
@@ -156,8 +158,8 @@ export function AllProducts() {
           },
         },
       );
-      console.log(response)
       handleSuccess(response.data.message);
+      console.log(response.data)
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
           product._id === id
@@ -440,6 +442,7 @@ export function AllProducts() {
                 Cancel
               </Button>
             </div>
+            <ToastContainer/>
           </div>
         </div>
       )}
