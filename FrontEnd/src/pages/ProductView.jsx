@@ -52,6 +52,7 @@ const ProductView = () => {
           navigate("/card")
         }, 2000);
       }).catch((error) => {
+        console.log(error)
         handleError(error.response.data.message)
       })
       
