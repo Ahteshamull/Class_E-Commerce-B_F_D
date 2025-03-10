@@ -104,7 +104,7 @@ const ProductView = () => {
                   </span>
                   {singleProduct.sellingPrice && (
                     <span className="text-gray-500 line-through">
-                      ${singleProduct.sellingPrice}
+                      ${singleProduct.sellingPrice || "N/A"}
                     </span>
                   )}
                 </div>
