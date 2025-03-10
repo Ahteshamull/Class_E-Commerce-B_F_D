@@ -100,7 +100,7 @@ const ProductView = () => {
                 </p>
                 <div className="mb-4">
                   <span className="text-2xl font-bold mr-2">
-                    ${singleProduct.discountPrice || "0.00"}
+                    ${singleProduct.discountPrice || "N/A"}
                   </span>
                   {singleProduct.sellingPrice && (
                     <span className="text-gray-500 line-through">
