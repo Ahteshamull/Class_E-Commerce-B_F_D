@@ -23,6 +23,7 @@ const ProductView = () => {
       setSingleProduct(response.data.singleProduct);
       setProductImage(response.data.singleProduct.image || []);
     } catch (error) {
+      console.log(error)
       alert("Error fetching product details");
     }
   };
