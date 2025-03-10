@@ -14,7 +14,6 @@ const ProductView = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
  const loginUserdata = useSelector((state) => state.user.value);
-  // Function to fetch product details
   const fetchSingleProduct = async () => {
     try {
       const response = await axios.get(
