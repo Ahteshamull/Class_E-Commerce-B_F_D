@@ -203,7 +203,7 @@ const featureProduct = async (req, res) => {
       { _id: id },
       { isFeature: true },
       { new: true }
-    );
+    )
     return res.status(200).send({
       success: true,
       message: "Feature Product Here",
