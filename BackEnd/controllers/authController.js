@@ -94,7 +94,7 @@ const loginController = async (req, res) => {
           };
 
           const token = jwt.sign({ loginUserInfo }, process.env.PRV_TOKEN, {
-            expiresIn: "1h",
+            expiresIn: "24h",
           });
           res.cookie("token", token, {
             // httpOnly: true,
