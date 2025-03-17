@@ -461,7 +461,7 @@ export function AllProducts() {
                 label="Upload Images"
                 type="file"
                 multiple
-                onChange={handleImageChange}
+                // onChange={handleImageChange}
                 className="rounded-md"
               />
             </div>
