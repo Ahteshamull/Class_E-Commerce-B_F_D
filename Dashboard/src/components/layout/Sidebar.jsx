@@ -31,7 +31,7 @@ const Sidebar = () => {
         <ul className="mt-10 flex-1 space-y-8 pl-3">
           <li>
             <Link
-              to={"/all-products"}
+              to={"/sell-details"}
               className="relative left-0 flex items-center rounded-md text-sm font-semibold text-[#3949ab] transition-all hover:left-1"
             >
               <MdOutlineDashboard className="mr-4 h-[18px] w-[18px]" />

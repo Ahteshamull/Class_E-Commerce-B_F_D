@@ -14,6 +14,7 @@ import AllStore from "./pages/AllStore";
 import { AllProducts } from "./pages/AllProducts";
 import OTPVerification from "./pages/OTPVerification";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import SellDetailes from "./components/layout/SellDetailes";
 const App = () => {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/all-cetagory" element={<AllCetagory />} />
           <Route path="/add-store" element={<AddStore/>} />
           <Route path="/all-stores" element={<AllStore />} />
+          <Route path="/sell-details" element={<SellDetailes />} />
 
           </Route>
         </Route>

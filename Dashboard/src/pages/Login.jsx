@@ -50,7 +50,7 @@ const Login = () => {
         Cookie.set(
           "user",
           String(response.data.data.role + response.data.data.id),
-          { expires: 10 / 1440 },
+          { expires: 60 / 1440 },
         );
         handleSuccess(response.data.data.message || "Admin Login Success!");
         setTimeout(() => {
