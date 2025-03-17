@@ -13,7 +13,7 @@ import { Link } from "react-router";
 const Sidebar = () => {
   return (
     <div>
-      <nav className="flex h-screen w-[220px] flex-col overflow-auto bg-white px-6 py-6 font-[sans-serif] shadow-lg select-none">
+      <nav className="flex h-screen w-[220px] flex-col overflow-auto  bg-white px-6 py-6 font-[sans-serif] shadow-lg select-none">
         <div className="flex cursor-pointer flex-wrap items-center">
           <div className="relative">
             <img

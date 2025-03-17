@@ -301,7 +301,7 @@ export function AllProducts() {
         </div>
       </CardHeader>
 
-      <CardBody className="overflow-scroll px-0 grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-6">
+      <CardBody className="overflow-y-scroll px-0 grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-6">
   {loading ? (
     <div className="col-span-full  p-4 text-center">
       <Typography variant="small" color="blue-gray">
