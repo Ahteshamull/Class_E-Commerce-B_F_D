@@ -310,10 +310,10 @@ export function AllProducts() {
     </div>
   ) : (
     products.map((product) => (
-      <Card key={product._id} className=" p-4  shadow-lg rounded-lg">
+      <Card key={product._id} className=" p-4  shadow-md rounded-lg">
         <div className="flex flex-col items-center">
           <img
-            src={product.image[0]} // Display the first image
+            src={product.image[0]} 
             alt={product.name}
             className="h-40 w-40 object-contain mb-4"
           />
