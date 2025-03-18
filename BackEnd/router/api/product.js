@@ -6,6 +6,7 @@ const {
   allProduct,
   singleProduct,
   featureProduct,
+  allFeatureProduct,
 } = require("../../controllers/productController");
 const router = express.Router();
 const {
@@ -39,4 +40,6 @@ router.get("/allProduct", allProduct);
 router.get("/singleProduct/:id", singleProduct);
 //localhost:3000/api/v1/product/featureProduct/id
 router.get("/featureProduct/:id", featureProduct);
+//localhost:3000/api/v1/product/allFeatureProduct
+router.get("/allFeatureProduct", allFeatureProduct);
 module.exports = router;

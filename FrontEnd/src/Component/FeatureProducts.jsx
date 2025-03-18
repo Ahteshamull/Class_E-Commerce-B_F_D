@@ -7,7 +7,7 @@ import "react-multi-carousel/lib/styles.css";
 
 const FeatureProducts = () => {
   const [featureProducts, setFeatureProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   const [error, setError] = useState(null);
 
   // Responsive settings for Carousel
@@ -22,23 +22,14 @@ const FeatureProducts = () => {
     const fetchFeatureProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/product/allProduct"
+          "http://localhost:3000/api/v1/product/allFeatureProduct"
         );
-
-        if (response.data && Array.isArray(response.data.allProduct)) {
-          // Filter products where isFeature is true
-          const featured = response.data.allProduct.filter(
-            (product) => product.isFeature === true
-          );
-          setFeatureProducts(featured);
-        } else {
-          setFeatureProducts([]);
-        }
-
-        setLoading(false);
+        setFeatureProducts(response.data.allFeatureProduct);
+    
       } catch (err) {
+        console.log(err)
         setError("Failed to load featured products");
-        setLoading(false);
+     
       }
     };
 
@@ -61,18 +52,7 @@ const FeatureProducts = () => {
             </span>
           </h2>
 
-          {/* Loading and Error Handling */}
-          {loading ? (
-            <p className="text-center text-gray-600">
-              Loading featured products...
-            </p>
-          ) : error ? (
-            <p className="text-center text-red-500">{error}</p>
-          ) : featureProducts.length === 0 ? (
-            <p className="text-center text-gray-600">
-              No featured products available.
-            </p>
-          ) : (
+       
             <Carousel responsive={responsive}>
               {featureProducts.map((product) => (
                 <div key={product._id}>
@@ -80,7 +60,7 @@ const FeatureProducts = () => {
                 </div>
               ))}
             </Carousel>
-          )}
+        
         </div>
       </Container>
     </section>

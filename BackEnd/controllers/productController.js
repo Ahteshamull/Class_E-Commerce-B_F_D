@@ -217,6 +217,22 @@ const featureProduct = async (req, res) => {
     });
   }
 };
+const allFeatureProduct = async (req, res) => {
+  try {
+    const allFeatureProduct = await productsModel.find({ isFeature: true });
+    return res.status(200).send({
+      success: true,
+      message: "All Feature Product Here",
+      allFeatureProduct,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      error: true,
+      message: `${error.message ? error.message : "Internal server error"}`,
+    });
+  }
+}
 module.exports = {
   productController,
   deleteProduct,
@@ -224,4 +240,5 @@ module.exports = {
   allProduct,
   singleProduct,
   featureProduct,
+  allFeatureProduct,
 };

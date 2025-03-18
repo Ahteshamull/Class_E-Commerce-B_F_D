@@ -8,15 +8,9 @@ const Products = (
     <div className="grid md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5 grid-cols-3  mt-5">
       <div className="w-80 mt-5 bg-white shadow rounded">
         {" "}
-        <div
-          className="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              'url("https://images.pexels.com/photos/7989741/pexels-photo-7989741.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")',
-          }}
-        >
+        <div className="h-48 w-[250px] bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center">
           {" "}
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             {" "}
             <input type="checkbox" />{" "}
             <button className="text-white hover:text-blue-500">
@@ -37,66 +31,27 @@ const Products = (
                 />{" "}
               </svg>{" "}
             </button>{" "}
-          </div>{" "}
+          </div>{" "} */}
           <div>
             {" "}
             <span className="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
               {" "}
               available{" "}
             </span>{" "}
+            <img src={product.image[0]} alt="" />
           </div>{" "}
         </div>{" "}
         <div className="p-4 flex flex-col items-center">
           {" "}
-          <p className="text-gray-400 font-light text-xs text-center">
-            {" "}
-            Hammond robotics{" "}
+          <p className="text-black font-light text-sm text-center">
+            {product.name}
           </p>{" "}
-          <h1 className="text-gray-800 text-center mt-1">Phone</h1>{" "}
-          <p className="text-center text-gray-800 mt-1">$1299</p>{" "}
-          <div className="inline-flex items-center mt-2">
-            {" "}
-            <button className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20 12H4"
-                />{" "}
-              </svg>{" "}
-            </button>{" "}
-            <div className="bg-gray-100 border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
-              {" "}
-              2{" "}
-            </div>{" "}
-            <button className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200">
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />{" "}
-              </svg>{" "}
-            </button>{" "}
-          </div>{" "}
+          <h1 className="text-gray-800 text-center mt-1">
+            ${product.sellingPrice}
+          </h1>{" "}
+          <p className="text-center text-gray-800 mt-1">
+            ${product.discountPrice}
+          </p>{" "}
           <button className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center">
             {" "}
             Add to order{" "}
@@ -116,38 +71,6 @@ const Products = (
               />{" "}
             </svg>{" "}
           </button>{" "}
-          <div className="flex justify-between w-full mt-4">
-            {" "}
-            <div className="flex items-center text-gray-500">
-              {" "}
-              <input id="input1" type="checkbox" className="mr-2" />{" "}
-              <label htmlFor="input1" className="select-none cursor-pointer">
-                Compare
-              </label>{" "}
-            </div>{" "}
-            <div>
-              {" "}
-              <button className="py-1 px-4 bg-white text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center">
-                {" "}
-                Add to List{" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  {" "}
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />{" "}
-                </svg>{" "}
-              </button>{" "}
-            </div>{" "}
-          </div>{" "}
         </div>{" "}
       </div>
     </div>
