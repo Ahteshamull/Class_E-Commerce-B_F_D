@@ -17,7 +17,7 @@ const Products = (
             <span className="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none">
               available
             </span>
-            <img src={product.image[0]} alt="" />
+            <img src={product.image[0]} alt="Product Image" />
           </div>
         </div>
         <div className="p-4 flex flex-col items-center">
