@@ -114,7 +114,7 @@ const Banner = () => {
               key={index}
               className="object-cover w-full"
               src={item.image}
-              alt={"Banner Image"}
+              alt={"Banner Image dynamic"}
             />
           ))}
         </Slider>
