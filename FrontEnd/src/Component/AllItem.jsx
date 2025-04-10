@@ -14,7 +14,7 @@ const AllItem = ({ productItem }) => {
         <div className="mb-4 bg-gray-100 rounded p-2">
           <img
             src={productItem.image[0]}
-            alt="Product 1"
+            alt="Product"
             className="aspect-[33/35] w-full object-contain"
           />
         </div>
