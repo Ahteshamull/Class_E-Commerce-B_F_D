@@ -150,7 +150,7 @@ console.log(grandTotal)
                       </div>
                     </div>
                     <div className="ml-auto">
-                      <h4 className="text-base font-bold text-gray-800">
+                      <h4 className="text-base font-bold text-gray-800 ">
                         ${product?.products?.discountPrice}
                       </h4>
                       <h6 className="text-xs text-gray-500 line-through">
