@@ -21,7 +21,7 @@ const Products = (
           </div>
         </div>
         <div className="p-4 flex flex-col items-center">
-          <p className="text-black font-light text-sm text-center">
+          <p className="text-black  font-light text-sm text-center">
             {product.name}
           </p>
           <h1 className="text-gray-800 text-center mt-1">
